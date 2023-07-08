@@ -2,12 +2,16 @@ import axiosInstance from "../../utility/axiosInstance";
 import { Account } from "../entity/Account";
 
 export const signupAccount = async (
-  data: { email: string; password: string; name: string; phoneNumber: string }
-): Promise<Account> => {
-  const response = await axiosInstance.springAxiosInst.post<Account>('/account/sign-up', data)
-  console.log('회원가입 정보:', data)
-  return response.data
-}
+  data: { email: string; password: string; name: string; phoneNumber: string; roleType?: string }
+  ): Promise<Account> => {
+    const setData = {
+      ...data,
+      roleType: data.roleType || 'NORMAL' // roleType이 없을 경우 기본값으로 'NORMAL' 설정
+    };
+    const response = await axiosInstance.springAxiosInst.post<Account>('/account/sign-up', setData);
+    console.log('회원가입 정보:', setData);
+    return response.data;
+  };
 
 export const checkEmailDuplicate = async (email: string): Promise<boolean> => {
   try {

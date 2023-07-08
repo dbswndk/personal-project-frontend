@@ -4,4 +4,5 @@ export interface Account {
   password: string;
   name: string;
   phoneNumber: string;
+  roleType: string;
 }

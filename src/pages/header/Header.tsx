@@ -10,7 +10,7 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
   return (
     <div>
       <div className='navbar'>
-        <Link className='Mene' to={'/'}>홈</Link>
+        <Link className='Mene' to={'/'}>로그인</Link>
         <Link className='Mene' to={'/signup'}>회원가입</Link>
       </div>
       {children}
