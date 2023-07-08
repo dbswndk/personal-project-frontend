@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Box, Button, Container, Grid, TextField } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useMutation, useQueryClient } from 'react-query'
-import { signupAccount } from '../api/AccountApi'
+import { checkEmailDuplicate, signupAccount } from '../api/AccountApi'
 
 const SignUpPage = () => {
   const navigate = useNavigate()
@@ -10,7 +10,7 @@ const SignUpPage = () => {
   const mutation = useMutation(signupAccount, {
     onSuccess: (data) => {
       queryClient.setQueriesData('account', data)
-      navigate('/login')
+      navigate('/')
     }
   })
 
@@ -19,22 +19,12 @@ const SignUpPage = () => {
   const [password, setPassword] = useState<string>('')
   const [passwordCheck, setPasswordCheck] = useState<string>('')
   const [phoneNumber, setPhoneNumber] = useState<string>('')
-  const [isFormValid, setIsFormValid] = useState<boolean | ''>(false);
+  const [isFormValid, setIsFormValid] = useState<boolean>(false);
 
   // 오류 메세지
   const [emailMessage, setEmailMessage] = useState('')
   const [passwordMessage, setPasswordMessage] = useState('')
   const [passwordCheckMessage, setPasswordCheckMessage] = useState('')
-
-  // 회원가입 버튼 활성화 조건 설정
-  const checkFormValidity = () => {
-    const isEmailValid = email && emailMessage === '';
-    const isPasswordValid = password && passwordMessage === '';
-    const isPasswordCheckValid = passwordCheck && passwordCheckMessage === '';
-    const isPhoneNumberValid = phoneNumber !== '' && phoneNumber.length === 13;
-  
-    setIsFormValid(isEmailValid && isPasswordValid && isPasswordCheckValid && isPhoneNumberValid);
-  };
   
 
   // 이메일 유효성 검사
@@ -90,6 +80,22 @@ const SignUpPage = () => {
     checkFormValidity();
   };
 
+  // 이메일 중복 검사
+  const handleDuplicateCheck = async () => {
+    try {
+      const isDuplicate = await checkEmailDuplicate(email)
+      if (isDuplicate) {
+        setEmailMessage('중복된 이메일입니다.')
+      } else {
+        setEmailMessage('사용 가능한 이메일 입니다.')
+      }
+    } catch (error) {
+      console.error('중복 확인 오류:', error)
+      setEmailMessage('오류 발생')
+    }
+    checkFormValidity();
+  }
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
 
@@ -116,23 +122,37 @@ const SignUpPage = () => {
     await mutation.mutateAsync(data)
   }
 
+  // 회원 가입 버튼 활성화 조건
+  const checkFormValidity = () => {
+    setIsFormValid(
+      email !== '' &&
+      password !== '' &&
+      passwordCheck !== '' &&
+      phoneNumber !== ''
+    )
+  }
+
   return (
     <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" minHeight="100vh">
       <Container maxWidth="sm">
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <div style={{ position: 'relative' }}>
+          <Grid item xs={12}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div style={{ position: 'relative', flex: 1 }}>
                 <TextField label='이메일' name='email' fullWidth variant="filled" margin="normal"
-                            sx={{ borderRadius: '2px' }} onChange={onChangeEmail} />
+                              sx={{ borderRadius: '2px', minWidth: '200px' }} onChange={onChangeEmail} />
                 {emailMessage && <p style={{ fontSize: '12px', color: 'red', 
                               marginTop: '5px', position: 'absolute', bottom: '-20px' }}>{emailMessage}</p>}
               </div>
-            </Grid>
+              <Button variant="contained" color="primary" onClick={handleDuplicateCheck} 
+                              style={{ marginLeft: '10px', minWidth: '120px' }}>중복 확인</Button>
+            </div>
+          </Grid>
             <Grid item xs={12}>
               <div style={{ position: 'relative' }}>
                 <TextField label='비밀번호' name='password' fullWidth variant="filled" margin="normal"
-                            sx={{ borderRadius: '2px' }} onChange={onChangePassword} />
+                              sx={{ borderRadius: '2px' }} onChange={onChangePassword} />
                 {passwordMessage && <p style={{ fontSize: '12px', color: 'red', 
                               marginTop: '5px', position: 'absolute', bottom: '-20px' }}>{passwordMessage}</p>}
               </div>
@@ -140,7 +160,7 @@ const SignUpPage = () => {
             <Grid item xs={12}>
               <div style={{ position: 'relative' }}>
                 <TextField label='비밀번호 확인' name='checkPassword' fullWidth variant="filled" margin="normal"
-                            sx={{ borderRadius: '2px' }} onChange={onChangePasswordCheck} />
+                              sx={{ borderRadius: '2px' }} onChange={onChangePasswordCheck} />
                 {passwordCheckMessage && <p style={{ fontSize: '12px', color: 'red', 
                               marginTop: '5px', position: 'absolute', bottom: '-20px' }}>{passwordCheckMessage}</p>}
               </div>
@@ -148,13 +168,13 @@ const SignUpPage = () => {
             <Grid item xs={12}>
               <div style={{ position: 'relative' }}>
                 <TextField label='이름' name='name' fullWidth variant="filled" margin="normal"
-                            sx={{ borderRadius: '2px' }} />
+                              sx={{ borderRadius: '2px' }} />
               </div>
             </Grid>
             <Grid item xs={12}>
               <div style={{ position: 'relative' }}>
                 <TextField label='휴대폰 번호' name='phoneNumber' fullWidth variant="filled" margin="normal"
-                            sx={{ borderRadius: '2px' }} value={phoneNumber} onChange={handlePhoneNumber}/>
+                              sx={{ borderRadius: '2px' }} value={phoneNumber} onChange={handlePhoneNumber}/>
               </div>
             </Grid>
             <Grid item xs={12}>
