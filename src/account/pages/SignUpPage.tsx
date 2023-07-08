@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box, Button, Container, TextField } from '@mui/material'
+import { Box, Button, Container, Grid, TextField } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useMutation, useQueryClient } from 'react-query'
 import { signupAccount } from '../api/AccountApi'
@@ -14,8 +14,65 @@ const SignUpPage = () => {
     }
   })
 
-  const [errorMessage, setErrorMessage] = useState('')
-  const [passwordMatchError, setPasswordMatchError] = useState(false);
+  // 유효성 검사
+  const [email, setEmail] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+  const [passwordCheck, setPasswordCheck] = useState<string>('')
+  const [phoneNumber, setPhoneNumber] = useState<string>('')
+
+  // 오류 메세지
+  const [emailMessage, setEmailMessage] = useState('')
+  const [passwordMessage, setPasswordMessage] = useState('')
+  const [passwordCheckMessage, setPasswordCheckMessage] = useState('')
+
+  // 이메일 유효성 검사
+  const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const currentEmail = e.target.value
+    setEmail(currentEmail)
+    const emailEx = /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{1,3}$/;
+
+    if (!emailEx.test(currentEmail)) {
+      setEmailMessage('올바른 이메일 형식을 사용해주세요.')
+    } else {
+      setEmailMessage('')
+    }
+  }
+
+  // 비밀번호 유효성 검사
+  const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const currentPassword = e.target.value
+    setPassword(currentPassword)
+    const passwordEx = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,25}$/;   // /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/; 특수문자포함
+
+    if (!passwordEx.test(currentPassword)) {
+      setPasswordMessage('영문, 숫자 조합으로 8자리 이상 입력해주세요')
+    } else {
+      setPasswordMessage('')
+    }
+  }
+
+  // 비밀번호 확인 유효성 검사
+  const onChangePasswordCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const currentPasswordCheck = e.target.value
+    setPasswordCheck(currentPasswordCheck)
+
+    if (password !== currentPasswordCheck) {
+      setPasswordCheckMessage('비밀번호가 일치하지 않습니다.')
+    } else {
+      setPasswordCheckMessage('')
+    }
+  }
+
+  // 휴대폰 번호 '-' 자동 생성
+  const handlePhoneNumber = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    let formattedPhoneNumber = value.replace(/[^0-9]/g, ''); // 숫자 이외의 문자 제거
+    formattedPhoneNumber = formattedPhoneNumber.slice(0, 11); // 11자리까지만 유지
+    if (formattedPhoneNumber.length === 11) {
+      formattedPhoneNumber = `${formattedPhoneNumber.slice(0, 3)}-${formattedPhoneNumber.slice(3, 7)}-${formattedPhoneNumber.slice(7)}`;
+    }
+    setPhoneNumber(formattedPhoneNumber);
+  };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
@@ -32,21 +89,6 @@ const SignUpPage = () => {
 
     const { email, password, checkPassword, name, phoneNumber } = target.elements
 
-// const handleCheckEmailAvailability = async () => {
-//   const email = document.getElementsByName('email')[0].value;
-//   const isEmailAvailable = await checkEmailAvailability(email);
-//   if (isEmailAvailable) {
-//     setErrorMessage('사용 가능한 이메일입니다.');
-//   } else {
-//     setErrorMessage('이미 사용 중인 이메일입니다.');
-//   }
-// };
-
-    if (password.value !== checkPassword.value) {
-      setPasswordMatchError(true);
-      return;
-    }
-
     const data = {
       email: email.value,
       password: password.value,
@@ -59,21 +101,53 @@ const SignUpPage = () => {
   }
 
   return (
-    <Container maxWidth="md">
-      <form onSubmit={handleSubmit}>
-        <Box display="flex" flexDirection="column" gap={3} p={20}>
-          <TextField label='이메일' name='email' sx={{ borderRadius: '2px' }}/>
-          <TextField label='비밀번호' name='password' sx={{ borderRadius: '2px' }}/>
-          <TextField label='비밀번호 확인' name='checkPassword' sx={{ borderRadius: '2px' }}
-                error={passwordMatchError} helperText={passwordMatchError && '비밀번호가 일치하지 않습니다.'}/>
-          <TextField label='이름' name='name' sx={{ borderRadius: '2px' }}/>
-          <TextField label='휴대폰 번호' name='phoneNumber' sx={{ borderRadius: '2px' }}/>
-          <Button type='submit'>회원 가입</Button>
-          {errorMessage && <p>{errorMessage}</p>}
-          {/* <Button onClick={handleCheckEmailAvailability}>이메일 중복 확인</Button> */}
-        </Box>        
-      </form>
-    </Container>
+    <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" minHeight="100vh">
+      <Container maxWidth="sm">
+        <form onSubmit={handleSubmit}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <div style={{ position: 'relative' }}>
+                <TextField label='이메일' name='email' fullWidth variant="filled" margin="normal"
+                            sx={{ borderRadius: '2px' }} onChange={onChangeEmail} />
+                {emailMessage && <p style={{ fontSize: '12px', color: 'red', 
+                              marginTop: '5px', position: 'absolute', bottom: '-20px' }}>{emailMessage}</p>}
+              </div>
+            </Grid>
+            <Grid item xs={12}>
+              <div style={{ position: 'relative' }}>
+                <TextField label='비밀번호' name='password' fullWidth variant="filled" margin="normal"
+                            sx={{ borderRadius: '2px' }} onChange={onChangePassword} />
+                {passwordMessage && <p style={{ fontSize: '12px', color: 'red', 
+                              marginTop: '5px', position: 'absolute', bottom: '-20px' }}>{passwordMessage}</p>}
+              </div>
+            </Grid>
+            <Grid item xs={12}>
+              <div style={{ position: 'relative' }}>
+                <TextField label='비밀번호 확인' name='checkPassword' fullWidth variant="filled" margin="normal"
+                            sx={{ borderRadius: '2px' }} onChange={onChangePasswordCheck} />
+                {passwordCheckMessage && <p style={{ fontSize: '12px', color: 'red', 
+                              marginTop: '5px', position: 'absolute', bottom: '-20px' }}>{passwordCheckMessage}</p>}
+              </div>
+            </Grid>
+            <Grid item xs={12}>
+              <div style={{ position: 'relative' }}>
+                <TextField label='이름' name='name' fullWidth variant="filled" margin="normal"
+                            sx={{ borderRadius: '2px' }} />
+              </div>
+            </Grid>
+            <Grid item xs={12}>
+              <div style={{ position: 'relative' }}>
+                <TextField label='휴대폰 번호' name='phoneNumber' fullWidth variant="filled" margin="normal"
+                            sx={{ borderRadius: '2px' }} value={phoneNumber} onChange={handlePhoneNumber}/>
+              </div>
+            </Grid>
+            <Grid item xs={12}>
+              <Button type='submit' variant="contained" color="primary">회원 가입</Button>
+            </Grid>
+          </Grid>
+        </form>
+      </Container>
+    </Box>
   )
 }
 
