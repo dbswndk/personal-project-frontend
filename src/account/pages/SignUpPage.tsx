@@ -19,11 +19,23 @@ const SignUpPage = () => {
   const [password, setPassword] = useState<string>('')
   const [passwordCheck, setPasswordCheck] = useState<string>('')
   const [phoneNumber, setPhoneNumber] = useState<string>('')
+  const [isFormValid, setIsFormValid] = useState<boolean | ''>(false);
 
   // 오류 메세지
   const [emailMessage, setEmailMessage] = useState('')
   const [passwordMessage, setPasswordMessage] = useState('')
   const [passwordCheckMessage, setPasswordCheckMessage] = useState('')
+
+  // 회원가입 버튼 활성화 조건 설정
+  const checkFormValidity = () => {
+    const isEmailValid = email && emailMessage === '';
+    const isPasswordValid = password && passwordMessage === '';
+    const isPasswordCheckValid = passwordCheck && passwordCheckMessage === '';
+    const isPhoneNumberValid = phoneNumber !== '' && phoneNumber.length === 13;
+  
+    setIsFormValid(isEmailValid && isPasswordValid && isPasswordCheckValid && isPhoneNumberValid);
+  };
+  
 
   // 이메일 유효성 검사
   const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,6 +48,7 @@ const SignUpPage = () => {
     } else {
       setEmailMessage('')
     }
+    checkFormValidity();
   }
 
   // 비밀번호 유효성 검사
@@ -49,6 +62,7 @@ const SignUpPage = () => {
     } else {
       setPasswordMessage('')
     }
+    checkFormValidity();
   }
 
   // 비밀번호 확인 유효성 검사
@@ -61,6 +75,7 @@ const SignUpPage = () => {
     } else {
       setPasswordCheckMessage('')
     }
+    checkFormValidity();
   }
 
   // 휴대폰 번호 '-' 자동 생성
@@ -72,6 +87,7 @@ const SignUpPage = () => {
       formattedPhoneNumber = `${formattedPhoneNumber.slice(0, 3)}-${formattedPhoneNumber.slice(3, 7)}-${formattedPhoneNumber.slice(7)}`;
     }
     setPhoneNumber(formattedPhoneNumber);
+    checkFormValidity();
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -142,7 +158,7 @@ const SignUpPage = () => {
               </div>
             </Grid>
             <Grid item xs={12}>
-              <Button type='submit' variant="contained" color="primary">회원 가입</Button>
+            <Button type='submit' variant="contained" color="primary" disabled={!isFormValid}>회원 가입</Button>
             </Grid>
           </Grid>
         </form>
