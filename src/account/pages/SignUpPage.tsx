@@ -178,7 +178,7 @@ const SignUpPage = () => {
               </div>
             </Grid>
             <Grid item xs={12}>
-            <Button type='submit' variant="contained" color="primary" disabled={!isFormValid}>회원 가입</Button>
+            <Button type='submit' variant="contained" color="primary" fullWidth disabled={!isFormValid}>회원 가입</Button>
             </Grid>
           </Grid>
         </form>

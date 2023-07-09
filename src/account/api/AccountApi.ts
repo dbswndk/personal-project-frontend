@@ -23,3 +23,17 @@ export const checkEmailDuplicate = async (email: string): Promise<boolean> => {
     throw error;
   }
 };
+
+export const loginAccount = async (
+  data: { email: string; password: string; }
+): Promise<Account> => {
+  try {
+    const response = await axiosInstance.springAxiosInst.post<Account>('/account/log-in', data);
+    console.log('로그인 정보:', data);
+    return response.data;
+  } catch (error) {
+    // 오류 처리
+    console.error('로그인 오류:', error);
+    throw error;
+  }
+};
