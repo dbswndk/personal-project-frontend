@@ -83,19 +83,19 @@ const SignUpPage = () => {
   // 이메일 중복 검사
   const handleDuplicateCheck = async () => {
     try {
-      const isDuplicate = await checkEmailDuplicate(email)
+      const isDuplicate = await checkEmailDuplicate(email);
       if (isDuplicate) {
-        setEmailMessage('중복된 이메일입니다.')
+        setEmailMessage('사용 가능한 이메일입니다.');
       } else {
-        setEmailMessage('사용 가능한 이메일 입니다.')
+        setEmailMessage('중복된 이메일입니다.');
       }
     } catch (error) {
-      console.error('중복 확인 오류:', error)
-      setEmailMessage('오류 발생')
+      console.error('중복 확인 오류:', error);
+      setEmailMessage('오류 발생');
     }
     checkFormValidity();
-  }
-
+  };
+  
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
 

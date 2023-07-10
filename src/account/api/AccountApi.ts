@@ -13,12 +13,11 @@ export const signupAccount = async (
     return response.data;
   };
 
-export const checkEmailDuplicate = async (email: string): Promise<boolean> => {
+export const checkEmailDuplicate = async (email: string) => {
   try {
-    const response = await axiosInstance.springAxiosInst.get<any>(`/account/check-email/${email}`);
-    return response.data.isDuplicate; // isDuplicate 필드 값을 반환
+    const response = await axiosInstance.springAxiosInst.get(`/account/check-email/${email}`);
+    return response.data; // 서버 응답 데이터 반환
   } catch (error) {
-    // 오류 처리
     console.error('이메일 중복 확인 오류:', error);
     throw error;
   }
