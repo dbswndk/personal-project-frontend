@@ -5,5 +5,5 @@ export interface Account {
   name: string;
   phoneNumber: string;
   roleType: string;
-  userToken: string;
+  accessToken: string;
 }

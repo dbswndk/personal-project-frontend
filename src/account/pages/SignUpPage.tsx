@@ -10,7 +10,7 @@ const SignUpPage = () => {
   const mutation = useMutation(signupAccount, {
     onSuccess: (data) => {
       queryClient.setQueriesData('account', data)
-      navigate('/')
+      navigate('/login')
     }
   })
 
@@ -20,6 +20,8 @@ const SignUpPage = () => {
   const [passwordCheck, setPasswordCheck] = useState<string>('')
   const [phoneNumber, setPhoneNumber] = useState<string>('')
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
+  const [isEmailAvailable, setIsEmailAvailable] = useState<boolean>(false)
+  const [isEmailDuplicateChecked, setIsEmailDuplicateChecked] = useState<boolean>(false);
 
   // 오류 메세지
   const [emailMessage, setEmailMessage] = useState('')
@@ -32,7 +34,7 @@ const SignUpPage = () => {
     const currentEmail = e.target.value
     setEmail(currentEmail)
     const emailEx = /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{1,3}$/;
-
+  
     if (!emailEx.test(currentEmail)) {
       setEmailMessage('올바른 이메일 형식을 사용해주세요.')
     } else {
@@ -40,6 +42,7 @@ const SignUpPage = () => {
     }
     checkFormValidity();
   }
+  
 
   // 비밀번호 유효성 검사
   const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -86,16 +89,20 @@ const SignUpPage = () => {
       const isDuplicate = await checkEmailDuplicate(email);
       if (isDuplicate) {
         setEmailMessage('사용 가능한 이메일입니다.');
+        setIsEmailAvailable(true); // 이메일이 중복된 경우 isEmailAvailable을 false로 설정
       } else {
         setEmailMessage('중복된 이메일입니다.');
+        setIsEmailAvailable(false); // 이메일이 중복되지 않은 경우 isEmailAvailable을 true로 설정
       }
     } catch (error) {
       console.error('중복 확인 오류:', error);
       setEmailMessage('오류 발생');
     }
+    setIsEmailDuplicateChecked(true);
     checkFormValidity();
   };
   
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
 
@@ -128,10 +135,12 @@ const SignUpPage = () => {
       email !== '' &&
       password !== '' &&
       passwordCheck !== '' &&
-      phoneNumber !== ''
-    )
-  }
-
+      phoneNumber !== '' &&
+      isEmailAvailable && // 사용 가능한 이메일인지 확인
+      isEmailDuplicateChecked // 중복 체크가 완료된 상태인지 확인
+    );
+  };  
+  
   return (
     <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" minHeight="100vh">
       <Container maxWidth="sm">
@@ -178,7 +187,9 @@ const SignUpPage = () => {
               </div>
             </Grid>
             <Grid item xs={12}>
-            <Button type='submit' variant="contained" color="primary" fullWidth disabled={!isFormValid}>회원 가입</Button>
+            <Button type='submit' variant="contained" color="primary" fullWidth disabled={!isFormValid}>
+              회원가입
+            </Button>
             </Grid>
           </Grid>
         </form>

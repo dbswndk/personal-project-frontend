@@ -24,7 +24,7 @@ export const checkEmailDuplicate = async (email: string) => {
 };
 
 export const loginAccount = async (
-  data: { email: string; password: string; }
+  data: { email: string; password: string; accessToken: string; }
 ): Promise<Account> => {
   try {
     const response = await axiosInstance.springAxiosInst.post<Account>('/account/log-in', data);

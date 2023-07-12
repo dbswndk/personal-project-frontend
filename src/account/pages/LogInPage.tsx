@@ -12,7 +12,9 @@ const LogInPage = () => {
       console.log('로그인 성공:', data)
       queryClient.setQueriesData('account', data)
 
-      localStorage.setItem('userToken', data.userToken)
+      const accessToken = data.accessToken;
+      console.log('토큰', accessToken)
+
       navigate('/')
     }
   })
@@ -31,6 +33,7 @@ const LogInPage = () => {
     const data = {
       email,
       password,
+      accessToken: '',
     }
 
     await mutation.mutateAsync(data)
