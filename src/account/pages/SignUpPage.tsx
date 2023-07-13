@@ -21,7 +21,7 @@ const SignUpPage = () => {
   const [phoneNumber, setPhoneNumber] = useState<string>('')
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [isEmailAvailable, setIsEmailAvailable] = useState<boolean>(false)
-  const [isEmailDuplicateChecked, setIsEmailDuplicateChecked] = useState<boolean>(false);
+  const [isEmailDuplicateChecked, setIsEmailDuplicateChecked] = useState<boolean>(true);
 
   // 오류 메세지
   const [emailMessage, setEmailMessage] = useState('')
@@ -89,10 +89,10 @@ const SignUpPage = () => {
       const isDuplicate = await checkEmailDuplicate(email);
       if (isDuplicate) {
         setEmailMessage('사용 가능한 이메일입니다.');
-        setIsEmailAvailable(true); // 이메일이 중복된 경우 isEmailAvailable을 false로 설정
+        setIsEmailAvailable(true);
       } else {
         setEmailMessage('중복된 이메일입니다.');
-        setIsEmailAvailable(false); // 이메일이 중복되지 않은 경우 isEmailAvailable을 true로 설정
+        setIsEmailAvailable(false);
       }
     } catch (error) {
       console.error('중복 확인 오류:', error);
@@ -137,7 +137,7 @@ const SignUpPage = () => {
       passwordCheck !== '' &&
       phoneNumber !== '' &&
       isEmailAvailable && // 사용 가능한 이메일인지 확인
-      isEmailDuplicateChecked // 중복 체크가 완료된 상태인지 확인
+      (isEmailAvailable || !isEmailDuplicateChecked) // 중복 체크가 완료된 상태인지 확인
     );
   };  
   

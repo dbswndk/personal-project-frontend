@@ -90,11 +90,20 @@ const SignUpPage = () => {
     checkFormValidity();
   };
 
+  // 인증 코드
   const handleAccessNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const checkAccessNumber = e.target.value
-    setAccessNumber(checkAccessNumber)
-    checkFormValidity();
-  }
+    const checkAccessNumber = e.target.value;
+    setAccessNumber(checkAccessNumber);
+
+    if ('123-456' !== checkAccessNumber) {
+      setAccessNumberMessage('인증되지 않았습니다.');
+      setIsFormValid(false);
+    } else {
+      setAccessNumberMessage('인증 되었습니다.');
+      setIsFormValid(true);
+    }
+  };
+
   
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -129,7 +138,7 @@ const SignUpPage = () => {
       passwordCheck !== '' &&
       accessNumber !== '' &&
       isEmailAvailable && // 사용 가능한 이메일인지 확인
-      isEmailDuplicateChecked // 중복 체크가 완료된 상태인지 확인
+      (isEmailAvailable || !isEmailDuplicateChecked) // 중복 체크가 완료된 상태인지 확인
     );
   };  
   
@@ -170,12 +179,12 @@ const SignUpPage = () => {
               <div style={{ position: 'relative' }}>
                 <TextField label='인증번호' name='accessNumber' fullWidth variant="filled" margin="normal"
                               sx={{ borderRadius: '2px' }} onChange={handleAccessNumber} />
-                {passwordCheckMessage && <p style={{ fontSize: '12px', color: 'red', 
+                {accessNumberMessage && <p style={{ fontSize: '12px', color: 'red', 
                               marginTop: '5px', position: 'absolute', bottom: '-20px' }}>{accessNumberMessage}</p>}
               </div>
             </Grid>
             <Grid item xs={12}>
-            <Button type='submit' variant="contained" color="primary" fullWidth disabled={!isFormValid}>
+            <Button type='submit' variant="contained" color="primary" fullWidth disabled={!isEmailDuplicateChecked || !isFormValid}>
               회원가입
             </Button>
             </Grid>
