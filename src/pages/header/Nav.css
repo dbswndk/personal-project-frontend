@@ -13,8 +13,8 @@
 
 .Menu-logout {
   color: white;
-  margin: 8px;
   background-color: transparent;
   border: none;
   cursor: pointer;
+  font-size: 16px;
 }

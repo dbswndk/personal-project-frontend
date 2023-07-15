@@ -28,7 +28,10 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
       <div className='navbar'>
         <Link className='Menu' to={'/'}>홈</Link>
         {isLoggedIn ? (
-          <button className='Menu-logout' onClick={handleLogout}>로그아웃</button>
+          <>
+            <button className='Menu-logout' onClick={handleLogout}>로그아웃</button>
+            <Link className='Menu' to={'/myPage'}>마이페이지</Link>
+          </>
         ) : (
           <>
             <Link className='Menu' to={'/login'}>로그인</Link>

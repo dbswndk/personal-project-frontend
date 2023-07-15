@@ -9,7 +9,7 @@ export default function RefreshToken() {
   useEffect(() => {
     // axios instance 생성
     const refreshAPI = axios.create({
-      baseURL:`http://localhost:7777`, // url설정
+      baseURL:'http://localhost:7777', // url설정
       headers: { "Content-type": "application/json" },
     })
 
@@ -30,8 +30,8 @@ export default function RefreshToken() {
           // accessToken 재발급
           if (status == 401) {
             if (message == "access token expired") {
-              await axios({
-                url: `http://localhost:7777/account/reissue`,
+              await refreshAPI({
+                url: 'http://localhost:7777/account/reissue',
                 method: "post",
                 headers: {
                   accessToken: localStorage.getItem("token"),
