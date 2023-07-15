@@ -11,7 +11,6 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <RefreshToken/>
     <QueryClientProvider client={queryClient}>
       <App />
     </QueryClientProvider>

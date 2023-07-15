@@ -15,6 +15,9 @@ const LogInPage = () => {
       const accessToken = data.accessToken;
       console.log('토큰', accessToken)
 
+      // 일단 로컬에 토큰 저장
+      localStorage.setItem('accessToken', accessToken);
+
       navigate('/')
     }
   })

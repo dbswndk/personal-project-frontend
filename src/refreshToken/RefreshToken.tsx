@@ -1,20 +1,22 @@
+import App from 'App';
 import axios from 'axios';
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const RefreshToken = () => {
+export default function RefreshToken() {
   const navigate = useNavigate();
   
   useEffect(() => {
     // axios instance 생성
     const refreshAPI = axios.create({
-      baseURL:'', // url설정
+      baseURL:`http://localhost:7777`, // url설정
       headers: { "Content-type": "application/json" },
     })
 
     const interceptor = axios.interceptors.response.use(
         // response 가 정상적으로 오는 경우
         function (response) {
+          console.log("응답하니?", response)
           return response
         },
         async function (error) {
@@ -25,10 +27,11 @@ const RefreshToken = () => {
           // 현재 발생한 에러 코드
           const status = error.response.status
 
+          // accessToken 재발급
           if (status == 401) {
             if (message == "access token expired") {
               await axios({
-                url: '',
+                url: `http://localhost:7777/account/reissue`,
                 method: "post",
                 headers: {
                   accessToken: localStorage.getItem("token"),
@@ -51,7 +54,7 @@ const RefreshToken = () => {
               navigate("/login")
               window.alert("로그아웃 되었습니다.")
             }
-            else if (message == "mail token expired") {
+            else if (message === "mail token expired") {
                 window.alert("비밀번호 변경 시간이 만료되었습니다. 다시 요청해 주세요.")
             }
           }
@@ -64,10 +67,6 @@ const RefreshToken = () => {
       return () => {
         axios.interceptors.response.eject(interceptor)
       }
-  }, [ ])
-  return (
-    <></>
-  )
+  }, [])
+  return <></>
 }
-
-export default RefreshToken
