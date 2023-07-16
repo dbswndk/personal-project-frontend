@@ -1,6 +1,6 @@
 import { Box, Container, Grid, TextField, Button } from '@mui/material'
 import { loginAccount } from 'account/api/AccountApi';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 
@@ -9,13 +9,11 @@ const LogInPage = () => {
   const queryClient = useQueryClient()
   const mutation = useMutation(loginAccount, {
     onSuccess: (data) => {
-      console.log('로그인 성공:', data)
       queryClient.setQueriesData('account', data)
 
       const accessToken = data.accessToken;
       console.log('토큰', accessToken)
-
-      // 일단 로컬에 토큰 저장
+      // 토큰을 로컬 스토리지에 저장
       localStorage.setItem('accessToken', accessToken);
 
       navigate('/')
@@ -35,13 +33,19 @@ const LogInPage = () => {
 
     const data = {
       email,
-      password,
-      accessToken: '',
+      password
     }
 
     await mutation.mutateAsync(data)
   }
-  
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+      navigate('/');
+    }
+  }, [navigate]);
+
   return (
     <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" minHeight="100vh">
       <Container maxWidth="sm">

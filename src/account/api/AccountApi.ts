@@ -16,32 +16,20 @@ export const signupAccount = async (
   };
 
 // 마이 페이지
-export const fetchAccount = async (accountId: string, accessToken: string): Promise<Account | null> => {
-  try {
-    const response = await axiosInstance.springAxiosInst.post('/account/myPage', null, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      }
-    });
-    // 일단 토큰을 보내고 여기까지 온건 확인
-    console.log('여기까지 오긴했니')
-    return response.data;
-  } catch (error: any) {
-    if (error.response && error.response.status === 403) {
-        console.log('접근 거부: 403 오류', error);
-        window.location.href = '/login'; // 사용자를 로그인 페이지로 리디렉션
-        alert('접근이 거부되었습니다. 로그인이 필요합니다.');
-    } else {
-        console.log('계정을 가져오는 중 오류 발생:', error);
-        alert('계정을 가져오는 중 오류가 발생했습니다.');
+export const fetchAccount = async (accountId: string, accessToken: string, email: string): Promise<Account | null> => {
+  const response = await axiosInstance.springAxiosInst.post('/account/myPage', { accountId: accountId, emmil: email }, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`
     }
-    throw error;
-}
+  });
+  console.log('이메일 정보:', email, "Id정보", accountId)
 
+  return response.data;
 };
 
-export const useAccountQuery = (accountId: string, accessToken: string): UseQueryResult<Account | null, unknown> => {
-  return useQuery(['account', accountId], () => fetchAccount(accountId, accessToken));
+
+export const useAccountQuery = (accountId: string, accessToken: string, data: any): UseQueryResult<Account | null, unknown> => {
+  return useQuery(['account', accountId], () => fetchAccount(accountId, accessToken, data));
 };
 
 export const checkEmailDuplicate = async (email: string) => {
@@ -56,11 +44,12 @@ export const checkEmailDuplicate = async (email: string) => {
 
 // 로그인 
 export const loginAccount = async (
-  data: { email: string; password: string; accessToken: string; }
+  data: { email: string; password: string; }
 ): Promise<Account> => {
   try {
     const response = await axiosInstance.springAxiosInst.post<Account>('/account/log-in', data);
     console.log('로그인 정보:', data);
+    console.log('이메일', data.email)
     return response.data;
   } catch (error) {
     // 오류 처리

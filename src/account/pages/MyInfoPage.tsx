@@ -1,6 +1,6 @@
 import { Box, Button, Container, TextField } from '@mui/material'
 import { fetchAccount, useAccountQuery } from 'account/api/AccountApi'
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useQueryClient } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
 
@@ -12,22 +12,24 @@ interface RouteParams {
 const MyInfoPage = () => {
   const navigate = useNavigate()
   const { accountId } = useParams<RouteParams>()
+  const [email, setEmail] = useState('');
   const queryClient = useQueryClient()
 
   const accessToken = localStorage.getItem('accessToken') || '';
   console.log('accessToken: ', accessToken)
 
-  const { data: account, isLoading, isError } = useAccountQuery(accountId || '', accessToken)
+  const { data: account, isLoading, isError } = useAccountQuery(accountId || '', accessToken, email);
 
   useEffect(() => {
     const fetchAccountData = async () => {
-      const data = await fetchAccount(accountId || '', accessToken)
+      const accountData = await fetchAccount(accountId || '', accessToken, email)
       // false값이 나왔음
-      console.log(data)
+      console.log("accountData:", accountData)
+      console.log("setEmail:", setEmail)
     }
 
     fetchAccountData()
-  })
+  }, [ ])
 
   const handleEditClick = () => {
     navigate(`/account/myPage`)

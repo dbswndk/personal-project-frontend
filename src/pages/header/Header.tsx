@@ -36,6 +36,8 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
           <>
             <Link className='Menu' to={'/login'}>로그인</Link>
             <Link className='Menu' to={'/signupHome'}>회원가입</Link>
+            <Link className='Menu' to={'/myPage'}>마이페이지</Link>
+
           </>
         )}
       </div>
