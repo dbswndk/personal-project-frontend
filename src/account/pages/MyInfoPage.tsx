@@ -15,14 +15,14 @@ const MyInfoPage = () => {
   const [email, setEmail] = useState('');
   const queryClient = useQueryClient()
 
-  const accessToken = localStorage.getItem('accessToken') || '';
+  const accessToken = localStorage.getItem('accessToken');
+  const { data: account, isLoading, isError } = useAccountQuery(accountId || '', accessToken || '', email);
   console.log('accessToken: ', accessToken)
-
-  const { data: account, isLoading, isError } = useAccountQuery(accountId || '', accessToken, email);
-
+   
   useEffect(() => {
+    // 계속해서 로딩하는 문제
     const fetchAccountData = async () => {
-      const accountData = await fetchAccount(accountId || '', accessToken, email)
+      const accountData = await fetchAccount(accountId || '', email)
       // false값이 나왔음
       console.log("accountData:", accountData)
       console.log("setEmail:", setEmail)
