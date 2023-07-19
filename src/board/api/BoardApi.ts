@@ -23,9 +23,17 @@ export const useBoardListQuery = (): UseQueryResult<Board[], unknown> => {
 export const registerBoard = async (
   data: { title: string; writer: string; content: string }
 ): Promise<Board> => {
-  const response = await axiosInstance.springAxiosInst.post<Board>('/board/register', data)
-  return response.data
-}
+  const requestData = { ...data, writer: '' };
+  const response = await axiosInstance.springAxiosInst.post<Board>('/board/register', requestData, {
+    headers: {
+      Authorization: localStorage.getItem('accessToken'),
+      "Content-Type": "application/json",
+    },
+  });
+  const updatedData = { ...response.data, writer: data.writer };
+  return updatedData;
+};
+
 
 export const fetchBoard = async (boardId: string): Promise<Board | null> => {
   const response = await axiosInstance.springAxiosInst.get<Board>(`/board/${boardId}`)

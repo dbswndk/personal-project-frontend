@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { fetchBoardList, useBoardListQuery } from '../api/BoardApi'
 import useBoardStore from '../store/BoardStore'
 
-const TypeScriptBoardListPage = () => {
+const BoardListPage = () => {
   const { data: boards, isLoading, isError } = useBoardListQuery()
   const setBoards = useBoardStore((state) => state.setBoards)
   const Navigate = useNavigate()
@@ -69,4 +69,4 @@ const TypeScriptBoardListPage = () => {
   )
 }
 
-export default TypeScriptBoardListPage
+export default BoardListPage

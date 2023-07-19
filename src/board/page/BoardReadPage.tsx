@@ -9,7 +9,7 @@ interface RouteParams {
   [key: string]: string
 }
 
-const TypeScriptBoardReadPage = () => {
+const BoardReadPage = () => {
   const navigate = useNavigate()
   const { boardId } = useParams<RouteParams>()
   const queryClient = useQueryClient()
@@ -58,4 +58,4 @@ const TypeScriptBoardReadPage = () => {
   )
 }
 
-export default TypeScriptBoardReadPage
+export default BoardReadPage

@@ -23,7 +23,6 @@ export const fetchAccount = async (accountId: string): Promise<Account | null> =
       "Content-Type": "application/json",
     },
   });
-  console.log("Id정보:", response.data.accountId)
 
   return response.data;
 };

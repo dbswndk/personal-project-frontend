@@ -9,7 +9,7 @@ interface RouteParams {
   [key: string]: string
 }
 
-const TypeScriptBoardModifyPage = () => {
+const BoardModifyPage = () => {
   const navigate = useNavigate()
   const { boardId } = useParams<RouteParams>()
   const queryClient = useQueryClient()
@@ -62,4 +62,4 @@ const TypeScriptBoardModifyPage = () => {
   )
 }
 
-export default TypeScriptBoardModifyPage
+export default BoardModifyPage

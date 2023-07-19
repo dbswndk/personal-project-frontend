@@ -9,6 +9,7 @@ import AccessSignUpPage from 'account/pages/AccessSignUpPage';
 import RefreshToken from 'refreshToken/RefreshToken';
 import MyInfoPage from 'account/pages/MyInfoPage';
 import BoardListPage from 'board/page/BoardListPage';
+import BoardRegisterPage from 'board/page/BoardRegisterPage';
 
 function App(): JSX.Element {
 
@@ -33,6 +34,7 @@ function App(): JSX.Element {
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/signupHome" element={<SignUpHome />} />
             <Route path="/access-signup" element={<AccessSignUpPage />} />
+            <Route path="/register" element={<BoardRegisterPage />} />
           </Routes>
         </div>
     </BrowserRouter>
