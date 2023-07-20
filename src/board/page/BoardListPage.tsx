@@ -69,11 +69,11 @@ const BoardListPage = () => {
               ) : (
                 // 여기가 boardList를 뿌리는 곳
                 boards?.map((board) => (
-                  <TableRow key={board.boardId} onClick={() => handleRowClick(board.boardId)} style={{ cursor: 'pointer' }}>
+                  <TableRow key={board.id} onClick={() => handleRowClick(board.id)} style={{ cursor: 'pointer' }}>
                     <TableCell>{ board.title }</TableCell>
                     <TableCell>{ board.writer }</TableCell>
-                    {/* back 에서 createdDate 라고 작성되있어서 createData론 안나옴 */}
-                    <TableCell>{ board.createdData }</TableCell>
+                    {/* 작성날짜만 나오게 표시 */}
+                    <TableCell>{ new Date(board.createdData).toISOString().slice(0, 10) }</TableCell>
                   </TableRow>
                 ))
               )}

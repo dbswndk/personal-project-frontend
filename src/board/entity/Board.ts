@@ -1,5 +1,5 @@
 export interface Board {
-  boardId: number;
+  id: number;
   title: string;
   writer: string;
   content: string;

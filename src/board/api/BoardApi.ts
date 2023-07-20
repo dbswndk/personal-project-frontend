@@ -44,10 +44,10 @@ export const useBoardQuery = (boardId: string): UseQueryResult<Board | null, unk
 }
 
 export const updateBoard = async (updatedData: Board): Promise<Board> => {
-  const { boardId, title, content, writer } = updatedData
+  const { id, title, content, writer } = updatedData
 
   const response = await axiosInstance.springAxiosInst.put<Board>(
-    `/jpa-board/${boardId}`, { title, content, writer })
+    `/jpa-board/${id}`, { title, content, writer })
 
   return response.data
 }
@@ -57,7 +57,7 @@ export const useBoardUpdateMutation = (): UseMutationResult<Board, unknown, Boar
 
   return useMutation (updateBoard, {
     onSuccess: (data) => {
-      QueryClient.setQueryData(['board', data.boardId], data)
+      QueryClient.setQueryData(['board', data.id], data)
     }
   })
 }
