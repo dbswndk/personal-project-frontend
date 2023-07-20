@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Box, Button, Container, TextField } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useMutation, useQueryClient } from 'react-query'
@@ -7,7 +7,7 @@ import { registerBoard } from '../api/BoardApi'
 const BoardRegisterPage = () => {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
-  const [writer, setWriter] = useState('')
+  const [writer] = useState('')
 
   const mutation = useMutation(registerBoard, {
     onSuccess: (data) => {

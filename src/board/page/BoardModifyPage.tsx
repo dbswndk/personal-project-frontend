@@ -14,7 +14,7 @@ const BoardModifyPage = () => {
   const { boardId } = useParams<RouteParams>()
   const queryClient = useQueryClient()
 
-  const { data: board, isLoading, isError } = useBoardQuery(boardId || '')
+  const { data: board } = useBoardQuery(boardId || '')
   const mutation = useBoardUpdateMutation()
 
   const [title, setTitle] = useState(board?.title || '')

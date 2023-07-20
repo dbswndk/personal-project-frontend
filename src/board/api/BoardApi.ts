@@ -1,4 +1,4 @@
-import { UseMutationResult, UseQueryResult, useQuery, QueryClient, useQueryClient, useMutation } from 'react-query';
+import { UseMutationResult, UseQueryResult, useQuery, useQueryClient, useMutation } from 'react-query';
 import { Board } from '../entity/Board'
 import useBoardStore from '../store/BoardStore'
 import axiosInstance from 'utility/axiosInstance';

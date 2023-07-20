@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Nav.css';
 import { useAuth } from 'pages/AuthConText';

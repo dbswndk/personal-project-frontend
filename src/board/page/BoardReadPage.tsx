@@ -14,7 +14,7 @@ const BoardReadPage = () => {
   const { boardId } = useParams<RouteParams>()
   const queryClient = useQueryClient()
 
-  const { data: board, isLoading, isError } = useBoardQuery(boardId || '')
+  const { data: board } = useBoardQuery(boardId || '')
 
   useEffect(() => {
     const fetchBoardData = async () => {

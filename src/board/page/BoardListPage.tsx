@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Button, CircularProgress, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { fetchBoardList, useBoardListQuery } from '../api/BoardApi'
 import useBoardStore from '../store/BoardStore'
 import { useAuth } from 'pages/AuthConText'
