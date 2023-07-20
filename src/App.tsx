@@ -11,6 +11,7 @@ import MyInfoPage from 'account/pages/MyInfoPage';
 import BoardListPage from 'board/page/BoardListPage';
 import BoardRegisterPage from 'board/page/BoardRegisterPage';
 import { AuthProvider } from 'pages/AuthConText';
+import BoardReadPage from 'board/page/BoardReadPage';
 
 function App(): JSX.Element {
 
@@ -38,6 +39,7 @@ function App(): JSX.Element {
             <Route path="/signupHome" element={<SignUpHome />} />
             <Route path="/access-signup" element={<AccessSignUpPage />} />
             <Route path="/register" element={<BoardRegisterPage />} />
+            <Route path="/read/:boardId" element={<BoardReadPage/>} />
           </Routes>
         </div>
     </BrowserRouter>
