@@ -21,19 +21,19 @@ const BoardReadPage = () => {
       const data = await fetchBoard(boardId || '')
       console.log(data)
     }
-
+    
     fetchBoardData()
   })
 
-  const handleEditClick = () => {
-    navigate(`/modify/${boardId}`)
-  }
+  // const handleEditClick = () => {
+  //   navigate(`/modify/${boardId}`)
+  // }
 
-  const handleDeleteClick = async () => {
-    await deleteBoard(boardId || '')
-    queryClient.invalidateQueries('boardList')
-    navigate('/board')
-  }
+  // const handleDeleteClick = async () => {
+  //   await deleteBoard(boardId || '')
+  //   queryClient.invalidateQueries('boardList')
+  //   navigate('/board')
+  // }
 
   const handleCancelClick = () => {
     queryClient.invalidateQueries('boardList')
@@ -50,8 +50,8 @@ const BoardReadPage = () => {
           <TextField label="내용" name="content" multiline 
                     disabled value={ board?.content || '' } 
                     minRows={10} maxRows={10} sx={{ borderRadius: '4px' }}/>
-          <Button variant='outlined' onClick={ handleEditClick }>수정</Button>
-          <Button variant='outlined' onClick={ handleDeleteClick }>삭제</Button>
+          {/* <Button variant='outlined' onClick={ handleEditClick }>수정</Button>
+          <Button variant='outlined' onClick={ handleDeleteClick }>삭제</Button> */}
           <Button variant='outlined' onClick={ handleCancelClick }>돌아가기</Button>
         </Box>
     </Container>

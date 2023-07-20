@@ -33,7 +33,7 @@ export const registerBoard = async (
   return response.data;
 };
 
-
+// 읽기
 export const fetchBoard = async (boardId: string): Promise<Board | null> => {
   const response = await axiosInstance.springAxiosInst.get<Board>(`/board/${boardId}`)
   return response.data
@@ -44,10 +44,10 @@ export const useBoardQuery = (boardId: string): UseQueryResult<Board | null, unk
 }
 
 export const updateBoard = async (updatedData: Board): Promise<Board> => {
-  const { id, title, content, writer } = updatedData
+  const { boardId, title, content, writer } = updatedData
 
   const response = await axiosInstance.springAxiosInst.put<Board>(
-    `/jpa-board/${id}`, { title, content, writer })
+    `/board/${boardId}`, { title, content, writer })
 
   return response.data
 }
@@ -57,7 +57,7 @@ export const useBoardUpdateMutation = (): UseMutationResult<Board, unknown, Boar
 
   return useMutation (updateBoard, {
     onSuccess: (data) => {
-      QueryClient.setQueryData(['board', data.id], data)
+      QueryClient.setQueryData(['board', data.boardId], data)
     }
   })
 }
