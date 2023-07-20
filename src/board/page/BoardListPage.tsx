@@ -3,9 +3,11 @@ import { Button, CircularProgress, Container, Paper, Table, TableBody, TableCell
 import { Link, useNavigate } from 'react-router-dom'
 import { fetchBoardList, useBoardListQuery } from '../api/BoardApi'
 import useBoardStore from '../store/BoardStore'
+import { useAuth } from 'pages/AuthConText'
 
 const BoardListPage = () => {
   const { data: boards, isLoading, isError } = useBoardListQuery()
+  const { checkAuthorization } = useAuth();
   const setBoards = useBoardStore((state) => state.setBoards)
   const Navigate = useNavigate()
 
@@ -31,9 +33,22 @@ const BoardListPage = () => {
     Navigate(`/read/${boardId}`)
   }
 
+  const handleWriteClick = () => {
+    // 사용자의 인증 상태 확인
+    const isAuthorized = checkAuthorization();
+
+    if (isAuthorized) {
+      // 사용자가 인증되었다면 글쓰기 페이지로 이동
+      Navigate('/register');
+    } else {
+      // 사용자가 인증되지 않았다면 알림을 띄우고 로그인 페이지로 이동
+      Navigate('/login');
+    }
+  };
+
   return (
     <Container maxWidth="lg">
-      <Button component={Link} to="/register" variant="contained"
+      <Button variant="contained" onClick={handleWriteClick}
             color="primary" style={{ marginTop: '20px' }}>
           글쓰기
         </Button>
