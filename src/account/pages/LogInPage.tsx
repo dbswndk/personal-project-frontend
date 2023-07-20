@@ -1,4 +1,4 @@
-import { Box, Container, Grid, TextField, Button } from '@mui/material'
+import { Box, Container, Grid, TextField, Button, Snackbar } from '@mui/material'
 import { loginAccount } from 'account/api/AccountApi';
 import { useAuth } from 'pages/AuthConText';
 import React, { useState, useEffect } from 'react'
@@ -9,19 +9,30 @@ const LogInPage = () => {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const { setIsLoggedIn } = useAuth(); 
+  const [showLoginFailureSnackbar, setShowLoginFailureSnackbar] = useState(false);
   const mutation = useMutation(loginAccount, {
     onSuccess: (data) => {
-      queryClient.setQueriesData('account', data);
+      if (data.accessToken) {
+        // 이메일과 비밀번호가 일치하여 로그인 성공한 경우 처리
+        queryClient.setQueriesData('account', data);
 
-      const accessToken = data.accessToken;
-      console.log('토큰', accessToken);
-      // 토큰을 로컬 스토리지에 저장
-      localStorage.setItem('accessToken', accessToken);
+        const accessToken = data.accessToken;
+        console.log('토큰', accessToken);
+        // 토큰을 로컬 스토리지에 저장
+        localStorage.setItem('accessToken', accessToken);
 
-      setIsLoggedIn(true); // 로그인 상태 변경
+        setIsLoggedIn(true); // 로그인 상태 변경
 
-      navigate('/');
-    }
+        navigate('/');
+      } else {
+        setShowLoginFailureSnackbar(true);
+        setFormData({ email: '', password: '' }); // 입력 폼 초기화
+      }
+    },
+    onError: () => {
+      setShowLoginFailureSnackbar(true);
+      setFormData({ email: '', password: '' }); // 입력 폼 초기화
+    },
   });
 
   const [formData, setFormData] = useState({ email: '', password: '' })
@@ -75,6 +86,9 @@ const LogInPage = () => {
           </Grid>
         </form>
       </Container>
+      <Snackbar open={showLoginFailureSnackbar} autoHideDuration={5000} onClose={() => setShowLoginFailureSnackbar(false)}
+        message="이메일과 비밀번호를 확인해주세요."
+      />
     </Box>
   );
 };
