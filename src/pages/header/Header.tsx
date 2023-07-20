@@ -1,16 +1,19 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Nav.css';
+import { useAuth } from 'pages/AuthConText';
 
 type HeaderProps = {
-  children: ReactNode;
+  children?: ReactNode;
 };
 
 const Header: React.FC<HeaderProps> = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
+
 
   const handleLogout = () => {
-    // 유저 토큰 삭제
+    // accessToken 토큰 삭제
     localStorage.removeItem('accessToken');
     setIsLoggedIn(false);
   };
@@ -37,10 +40,7 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
           <>
             <Link className='Menu' to={'/login'}>로그인</Link>
             <Link className='Menu' to={'/signupHome'}>회원가입</Link>
-            <Link className='Menu' to={'/myPage'}>마이페이지</Link>
             <Link className='Menu' to={'/board'}>게시판</Link>
-
-
           </>
         )}
       </div>
