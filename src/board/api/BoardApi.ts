@@ -20,18 +20,17 @@ export const useBoardListQuery = (): UseQueryResult<Board[], unknown> => {
   return queryResult
 }
 
+// 등록 api
 export const registerBoard = async (
-  data: { title: string; writer: string; content: string }
+  data: { title: string; content: string }
 ): Promise<Board> => {
-  const requestData = { ...data, writer: '' };
-  const response = await axiosInstance.springAxiosInst.post<Board>('/board/register', requestData, {
+  const response = await axiosInstance.springAxiosInst.post<Board>('/board/register', data, {
     headers: {
       Authorization: localStorage.getItem('accessToken'),
       "Content-Type": "application/json",
     },
   });
-  const updatedData = { ...response.data, writer: data.writer };
-  return updatedData;
+  return response.data;
 };
 
 

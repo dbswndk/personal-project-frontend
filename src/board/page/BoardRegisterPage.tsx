@@ -13,6 +13,7 @@ const BoardRegisterPage = () => {
     onSuccess: (data) => {
       queryClient.setQueryData('board', data)
       // navigate(`/read/${data.boardId}`)
+      console.log('전송정보: ', data)
       navigate('/list')
     }
   })
@@ -45,7 +46,6 @@ const BoardRegisterPage = () => {
       <form onSubmit={handleSubmit}>
         <Box display="flex" flexDirection="column" gap={2} p={2}>
           <TextField label="제목" name="title" sx={{ borderRadius: '4px' }}/>
-          {/* <TextField label="작성자" name="writer" value={writer} sx={{ borderRadius: '4px' }} disabled /> */}
           <TextField label="내용" name="content" multiline minRows={10} maxRows={10} sx={{ borderRadius: '4px' }}/>
         </Box>
         <Button type="submit">작성 완료</Button>
