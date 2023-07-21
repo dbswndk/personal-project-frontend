@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useQueryClient } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useBoardQuery, useBoardUpdateMutation } from '../api/BoardApi'
+import { AxiosError } from 'axios'
 
 interface RouteParams {
   boardId: string
@@ -24,16 +25,22 @@ const BoardModifyPage = () => {
     const { writer } = board || {}
 
     if (title && content && writer) {
-      // updatedData에서 String 으로 잡히는 오류가 발생 any로 잡혀야해서 임의로 any설정
       const updatedData: any = {
-        boardId , title, content, writer
+        boardId, title, content, writer
       }
+      try {
+        await mutation.mutateAsync(updatedData)
 
-      await mutation.mutateAsync(updatedData)
-
-      queryClient.invalidateQueries(['board', boardId])
-      navigate(`/read/${boardId}`)
-
+        queryClient.invalidateQueries(['board', boardId])
+        navigate(`/read/${boardId}`)
+      } catch (error) {
+        if ((error as AxiosError).response && ((error as AxiosError).response?.status === 400)) {
+          alert('권한이 없습니다.');
+          navigate('/board');
+        } else {
+          console.error('수정 중 오류가 발생했습니다:', error);
+        }
+      }
     }
   }
 
@@ -48,10 +55,10 @@ const BoardModifyPage = () => {
         <TextField label="제목" name="title"
                     value={ title } sx={{ borderRadius: '4px' }}
                     onChange={ (e) => setTitle(e.target.value) }/>
-        <TextField label="작성자" name="writer" disabled 
+        {/* <TextField label="작성자" name="writer" disabled 
                     value={ board?.writer || '' } sx={{ borderRadius: '4px' }}/>
         <TextField label="작성일자" name="updatedData" disabled 
-                    value={ board?.updatedData || '' } sx={{ borderRadius: '4px' }}/>
+                    value={ board?.updatedData || '' } sx={{ borderRadius: '4px' }}/> */}
         <TextField label="내용" name="content" multiline
                     value={ content } minRows={10} maxRows={10} sx={{ borderRadius: '4px' }}
                     onChange={ (e) => setContent(e.target.value) }/>

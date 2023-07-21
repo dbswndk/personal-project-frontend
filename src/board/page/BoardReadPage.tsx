@@ -26,9 +26,9 @@ const BoardReadPage = () => {
     fetchBoardData()
   }, [boardId]);
 
-  // const handleEditClick = () => {
-  //   navigate(`/modify/${boardId}`)
-  // }
+  const handleEditClick = () => {
+    navigate(`/modify/${boardId}`)
+  }
 
   const handleDeleteClick = async () => {
     try {
@@ -37,11 +37,9 @@ const BoardReadPage = () => {
       navigate('/board');
     } catch (error) {
       if (isAxiosError(error) && (error.response?.status === 500 || error.response?.status === 400)) {
-        // 권한이 없을 때의 처리
         alert('삭제 권한이 없습니다.');
         navigate('/board')
       } else {
-        // 다른 오류에 대한 처리
         console.error('삭제 중 오류가 발생했습니다:', error);
       }
     }
@@ -64,7 +62,7 @@ const BoardReadPage = () => {
                     minRows={10} maxRows={10} sx={{ borderRadius: '4px' }}/>
           <TextField label="작성일자" name="createdData" disabled
                     value={ board?.createdData || '' } sx={{ borderRadius: '4px' }}/>
-          {/* <Button variant='outlined' onClick={ handleEditClick }>수정</Button> */}
+          <Button variant='outlined' onClick={ handleEditClick }>수정</Button>
           <Button variant='outlined' onClick={ handleDeleteClick }>삭제</Button>
           <Button variant='outlined' onClick={ handleCancelClick }>돌아가기</Button>
         </Box>

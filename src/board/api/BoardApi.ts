@@ -43,11 +43,17 @@ export const useBoardQuery = (boardId: string): UseQueryResult<Board | null, unk
   return useQuery(['board', boardId], () => fetchBoard(boardId))
 }
 
+// 수정
 export const updateBoard = async (updatedData: Board): Promise<Board> => {
   const { boardId, title, content, writer } = updatedData
 
   const response = await axiosInstance.springAxiosInst.put<Board>(
-    `/board/${boardId}`, { title, content, writer })
+    `/board/${boardId}`, { title, content, writer }, {
+      headers: {
+        Authorization: localStorage.getItem('accessToken'),
+        "Content-Type": "application/json",
+      },
+    })
 
   return response.data
 }
