@@ -12,9 +12,10 @@ const BoardRegisterPage = () => {
   const mutation = useMutation(registerBoard, {
     onSuccess: (data) => {
       queryClient.setQueryData('board', data)
-      // navigate(`/read/${data.boardId}`)
+      console.log("등록데이터확인: ", data.boardId)
+      navigate(`/read/${data.boardId}`)
       console.log('전송정보: ', data)
-      navigate('/list')
+      // navigate('/list')
     }
   })
 

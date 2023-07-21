@@ -15,15 +15,15 @@ const BoardReadPage = () => {
   const queryClient = useQueryClient()
 
   const { data: board } = useBoardQuery(boardId || '')
+  console.log('boardId확인', boardId)
 
   useEffect(() => {
     const fetchBoardData = async () => {
       const data = await fetchBoard(boardId || '')
       console.log(data)
     }
-    
     fetchBoardData()
-  })
+  }, [boardId]);
 
   // const handleEditClick = () => {
   //   navigate(`/modify/${boardId}`)
@@ -50,6 +50,8 @@ const BoardReadPage = () => {
           <TextField label="내용" name="content" multiline 
                     disabled value={ board?.content || '' } 
                     minRows={10} maxRows={10} sx={{ borderRadius: '4px' }}/>
+          <TextField label="작성일자" name="createdData" disabled
+                    value={ board?.createdData || '' } sx={{ borderRadius: '4px' }}/>
           {/* <Button variant='outlined' onClick={ handleEditClick }>수정</Button>
           <Button variant='outlined' onClick={ handleDeleteClick }>삭제</Button> */}
           <Button variant='outlined' onClick={ handleCancelClick }>돌아가기</Button>
