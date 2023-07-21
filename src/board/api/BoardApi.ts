@@ -62,6 +62,12 @@ export const useBoardUpdateMutation = (): UseMutationResult<Board, unknown, Boar
   })
 }
 
+// 삭제
 export const deleteBoard = async (boardId: string): Promise<void> => {
-  await axiosInstance.springAxiosInst.delete(`/board/${boardId}`)
+  await axiosInstance.springAxiosInst.delete(`/board/${boardId}`, {
+    headers: {
+      Authorization: localStorage.getItem('accessToken'),
+      "Content-Type": "application/json",
+    },
+  })
 }

@@ -16,33 +16,32 @@ import BoardReadPage from 'board/page/BoardReadPage';
 function App(): JSX.Element {
 
   return (
-    <BrowserRouter>
-      <RefreshToken/>
-        <div>
-          {/* 헤더 라우터 설정 */}
-          <AuthProvider> {/* 로그인을 해야 페이지에 접근할 수 있는 권한 설정 */}            
-            <Header>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/login" element={<LogInPage />} />
-                <Route path="/signupHome" element={<SignUpHome />} />
-                <Route path="/myPage" element={<MyInfoPage />} />
-                <Route path="/board" element={<BoardListPage />} />
-              </Routes>
-            </Header>
-          </AuthProvider>
-        </div>
-        <div>
-          {/* 일반 라우터 설정 */}
-          <Routes>
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/signupHome" element={<SignUpHome />} />
-            <Route path="/access-signup" element={<AccessSignUpPage />} />
-            <Route path="/register" element={<BoardRegisterPage />} />
-            <Route path="/read/:boardId" element={<BoardReadPage/>} />
-          </Routes>
-        </div>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <RefreshToken/>
+          <div>
+            {/* 헤더 라우터 설정 */}
+              <Header>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/login" element={<LogInPage />} />
+                  <Route path="/signupHome" element={<SignUpHome />} />
+                  <Route path="/myPage" element={<MyInfoPage />} />
+                  <Route path="/board" element={<BoardListPage />} />
+                </Routes>
+              </Header>
+          </div>
+          <div>
+            {/* 일반 라우터 설정 */}
+            <Routes>
+              <Route path="/signup" element={<SignUpPage />} />
+              <Route path="/access-signup" element={<AccessSignUpPage />} />
+              <Route path="/register" element={<BoardRegisterPage />} />
+              <Route path="/read/:boardId" element={<BoardReadPage/>} />
+            </Routes>
+          </div>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
