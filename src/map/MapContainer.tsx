@@ -104,10 +104,10 @@ function MapContainer() {
     setSelectedPlace(place);
     setShowMapInfoPage(true);
 
-    // 팝업창은 유지하면서 url설정
-    const newPath = '/map/boardMapList';
+    const newPath = `/map/boardMapList/${encodeURIComponent(place.place_name)}`;
     window.history.replaceState({}, '', newPath);
   }
+  
   function handleCloseMapInfoPage() {
     setShowMapInfoPage(false);
   }

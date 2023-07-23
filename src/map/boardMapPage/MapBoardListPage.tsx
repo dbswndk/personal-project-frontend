@@ -2,31 +2,36 @@ import { Button, CircularProgress, Container, Paper, Table, TableBody, TableCell
 import { fetchBoardList, useBoardListQuery } from 'map/api/BoardMapApi'
 import useBoardMapStore from 'map/store/BoardMapStore'
 import { useAuth } from 'pages/AuthConText'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const MapBoardListPage = () => {
-  const { data: boards, isLoading, isError } = useBoardListQuery()
+  const [placeName, setPlaceName] = useState('');
+  const { data: boards, isLoading, isError } = useBoardListQuery(placeName);
   const { checkAuthorization } = useAuth()
   const setBoards = useBoardMapStore((state) => state.setBoards)
   const Navigate = useNavigate()
+  
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetchBoardList()
-      setBoards(data)
-    }
+      if (placeName) {
+        const data = await fetchBoardList(placeName);
+        console.log('위치', placeName)
+        setBoards(data);
+      }
+    };
 
-    fetchData()
-  }, [setBoards])
+    fetchData();
+  }, [placeName, setBoards]);
 
-  if (isLoading) {
-    return<CircularProgress/>
-  }
+  // if (isLoading) {
+  //   return<CircularProgress/>
+  // }
 
-  if (isError) {
-    return <Typography>에러 발생</Typography>
-  }
+  // if (isError) {
+  //   return <Typography>에러 발생</Typography>
+  // }
 
   const handleRowClick = (boardId: number) => {
     const isAuthorized = checkAuthorization();
