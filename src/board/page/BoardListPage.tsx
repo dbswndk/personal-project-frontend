@@ -29,9 +29,15 @@ const BoardListPage = () => {
     return <Typography>리스트를 가져오는 도중 에러가 발생했습니다</Typography>
   }
 
+ 
   const handleRowClick = (boardId: number) => {
-    Navigate(`/read/${boardId}`)
-  }
+    const isAuthorized = checkAuthorization();
+    if (isAuthorized) {
+      Navigate(`/read/${boardId}`);
+    } else {
+      Navigate('/login');
+    }
+  };
 
   const handleWriteClick = () => {
     // 사용자의 인증 상태 확인

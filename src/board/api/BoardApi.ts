@@ -35,7 +35,13 @@ export const registerBoard = async (
 
 // 읽기
 export const fetchBoard = async (boardId: string): Promise<Board | null> => {
-  const response = await axiosInstance.springAxiosInst.get<Board>(`/board/${boardId}`)
+  const response = await axiosInstance.springAxiosInst.get<Board>(`/board/${boardId}`, {
+    headers: {
+      Authorization: localStorage.getItem('accessToken'),
+      "Content-Type": "application/json",
+    },
+  } 
+  )
   return response.data
 }
 
