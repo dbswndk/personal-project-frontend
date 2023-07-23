@@ -13,6 +13,8 @@ import BoardRegisterPage from 'board/page/BoardRegisterPage';
 import { AuthProvider } from 'pages/AuthConText';
 import BoardReadPage from 'board/page/BoardReadPage';
 import BoardModifyPage from 'board/page/BoardModifyPage';
+import MapContainer from 'map/MapContainer';
+import MapInfoPage from 'map/MapInfoPage';
 
 function App(): JSX.Element {
 
@@ -29,6 +31,7 @@ function App(): JSX.Element {
                   <Route path="/signupHome" element={<SignUpHome />} />
                   <Route path="/myPage" element={<MyInfoPage />} />
                   <Route path="/board" element={<BoardListPage />} />
+                  <Route path="/map" element={<MapContainer/>} />
                 </Routes>
               </Header>
           </div>

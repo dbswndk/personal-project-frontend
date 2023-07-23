@@ -36,12 +36,14 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
             <button className='Menu-logout' onClick={handleLogout}>로그아웃</button>
             <Link className='Menu' to={'/myPage'}>마이페이지</Link>
             <Link className='Menu' to={'/board'}>게시판</Link>
+            <Link className='Menu' to={'/map'}>병원찾기</Link>
           </>
         ) : (
           <>
             <Link className='Menu' to={'/login'}>로그인</Link>
             <Link className='Menu' to={'/signupHome'}>회원가입</Link>
             <Link className='Menu' to={'/board'}>게시판</Link>
+            <Link className='Menu' to={'/map'}>병원찾기</Link>
           </>
         )}
       </div>
