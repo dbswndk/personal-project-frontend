@@ -15,6 +15,7 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
   const handleLogout = () => {
     // accessToken 토큰 삭제
     localStorage.removeItem('accessToken');
+    localStorage.removeItem('accountId')
     setIsLoggedIn(false);
   };
 

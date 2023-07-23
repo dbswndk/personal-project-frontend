@@ -13,25 +13,20 @@ const LogInPage = () => {
   const mutation = useMutation(loginAccount, {
     onSuccess: (data) => {
       if (data.accessToken) {
-        // 이메일과 비밀번호가 일치하여 로그인 성공한 경우 처리
         queryClient.setQueriesData('account', data);
-
         const accessToken = data.accessToken;
-        console.log('토큰', accessToken);
-        // 토큰을 로컬 스토리지에 저장
         localStorage.setItem('accessToken', accessToken);
-
         setIsLoggedIn(true); // 로그인 상태 변경
 
         navigate('/');
       } else {
         setShowLoginFailureSnackbar(true);
-        setFormData({ email: '', password: '' }); // 입력 폼 초기화
+        setFormData({ email: '', password: '' }); 
       }
     },
     onError: () => {
       setShowLoginFailureSnackbar(true);
-      setFormData({ email: '', password: '' }); // 입력 폼 초기화
+      setFormData({ email: '', password: '' }); 
     },
   });
 
@@ -48,7 +43,7 @@ const LogInPage = () => {
 
     const data = {
       email,
-      password
+      password,
     }
 
     await mutation.mutateAsync(data)
