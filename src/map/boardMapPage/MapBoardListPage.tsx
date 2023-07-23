@@ -49,10 +49,10 @@ const MapBoardListPage = () => {
 
   return (
     <Container maxWidth="lg">
-      <Button variant="contained" onClick={handleWriteClick}
+      {/* <Button variant="contained" onClick={handleWriteClick}
             color="primary" style={{ marginTop: '20px' }}>
           글쓰기
-        </Button>
+        </Button> */}
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="board table">
             <TableHead>
@@ -80,6 +80,10 @@ const MapBoardListPage = () => {
             </TableBody>
           </Table>
         </TableContainer>
+        <Button variant="contained" onClick={handleWriteClick}
+            color="primary" style={{ marginTop: '20px' }}>
+          글쓰기
+        </Button>
     </Container>
   )
 }

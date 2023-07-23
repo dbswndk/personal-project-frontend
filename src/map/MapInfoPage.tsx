@@ -25,7 +25,6 @@ const MapInfoPage: React.FC<MapInfoPageProps> = ({ place, onClose }) => {
         <p>전화번호: {place.phone}</p>
       </div>
       <MapBoardListPage/>
-      <button onClick={onClose}>닫기</button>
     </div>
   );
 };
