@@ -20,13 +20,13 @@ const MapBoardListPage = () => {
     fetchData()
   }, [setBoards])
 
-  // if (isLoading) {
-  //   return<CircularProgress/>
-  // }
+  if (isLoading) {
+    return<CircularProgress/>
+  }
 
-  // if (isError) {
-  //   return <Typography>에러 발생</Typography>
-  // }
+  if (isError) {
+    return <Typography>에러 발생</Typography>
+  }
 
   const handleRowClick = (boardId: number) => {
     const isAuthorized = checkAuthorization();
@@ -41,49 +41,44 @@ const MapBoardListPage = () => {
     const isAuthorized = checkAuthorization();
 
     if (isAuthorized) {
-      // Navigate('/register');
+      Navigate('/boardMapRegister');
     } else {
-      // Navigate('/login');
+      Navigate('/login');
     }
   };
 
   return (
     <Container maxWidth="lg">
-      {/* <Button variant="contained" onClick={handleWriteClick}
-            color="primary" style={{ marginTop: '20px' }}>
-          글쓰기
-        </Button> */}
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="board table">
-            <TableHead>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="board table">
+          <TableHead>
+            <TableRow>
+              <TableCell style={{ width: '50%'}}>제목</TableCell>
+              <TableCell align='right'>작성자</TableCell>
+              <TableCell align='right'>작성일자</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            { boards?.length ===0 ? (
               <TableRow>
-                <TableCell style={{ width: '50%'}}>제목</TableCell>
-                <TableCell align='right'>작성자</TableCell>
-                <TableCell align='right'>작성일자</TableCell>
+                <TableCell colSpan={3} align='center'>등록된 게시물이 없습니다</TableCell>
               </TableRow>
-            </TableHead>
-            <TableBody>
-              { boards?.length ===0 ? (
-                <TableRow>
-                  <TableCell colSpan={3} align='center'>등록된 게시물이 없습니다</TableCell>
+            ) : (
+              boards?.map((board) => (
+                <TableRow key={board?.boardId} onClick={() => handleRowClick(board?.boardId)} style={{ cursor: 'pointer' }}>
+                  <TableCell>{ board.title }</TableCell>
+                  <TableCell>{ board.writer }</TableCell>
+                  <TableCell>{ new Date(board.createdData).toISOString().slice(0, 10) }</TableCell>
                 </TableRow>
-              ) : (
-              // 여기가 boardList를 뿌리는 곳
-                boards?.map((board) => (
-                  <TableRow key={board?.boardId} onClick={() => handleRowClick(board?.boardId)} style={{ cursor: 'pointer' }}>
-                    <TableCell>{ board.title }</TableCell>
-                    <TableCell>{ board.writer }</TableCell>
-                    <TableCell>{ new Date(board.createdData).toISOString().slice(0, 10) }</TableCell>
-                  </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <Button variant="contained" onClick={handleWriteClick}
-            color="primary" style={{ marginTop: '20px' }}>
-          글쓰기
-        </Button>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Button variant="contained" onClick={handleWriteClick}
+          color="primary" style={{ marginTop: '20px' }}>
+        글쓰기
+      </Button>
     </Container>
   )
 }

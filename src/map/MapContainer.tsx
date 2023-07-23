@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import React, { useEffect, useRef, useState } from 'react';
 import MapInfoPage from './MapInfoPage';
+import { useNavigate } from 'react-router-dom';
 
 declare global {
   interface Window {
@@ -40,6 +41,7 @@ function MapContainer() {
   const mapRef = useRef<HTMLDivElement>(null);
   const markers: any[] = [];
   const bounds = new window.kakao.maps.LatLngBounds();
+  const navigate = useNavigate();
 
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
   const [showMapInfoPage, setShowMapInfoPage] = useState<boolean>(false);
@@ -101,8 +103,11 @@ function MapContainer() {
   function handleMarkerClick(place: any) {
     setSelectedPlace(place);
     setShowMapInfoPage(true);
-  }
 
+    // 팝업창은 유지하면서 url설정
+    const newPath = '/map/boardMapList';
+    window.history.replaceState({}, '', newPath);
+  }
   function handleCloseMapInfoPage() {
     setShowMapInfoPage(false);
   }
