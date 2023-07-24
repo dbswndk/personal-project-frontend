@@ -49,3 +49,13 @@ export const fetchBoard = async (place_name: string, boardMapId: string): Promis
 export const useBoardQuery = (place_name: string, boardMapId: string): UseQueryResult<BoardMap | null, unknown> => {
   return useQuery(['board', boardMapId], () =>  fetchBoard(place_name, boardMapId))
 }
+
+// 리뷰 삭제
+export const deleteBoard = async (place_name: string ,boardMapId: string): Promise<void> => {
+  await axiosInstance.springAxiosInst.delete(`/map/${encodeURIComponent(place_name)}/${boardMapId}`, {
+    headers: {
+      Authorization: localStorage.getItem('accessToken'),
+      "Content-Type": "application/json",
+    },
+  })
+}

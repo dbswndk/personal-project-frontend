@@ -1,5 +1,5 @@
 import { Box, Button, Container, TextField } from '@mui/material'
-import { fetchBoard, useBoardQuery } from 'map/api/BoardMapApi'
+import { deleteBoard, fetchBoard, useBoardQuery } from 'map/api/BoardMapApi'
 import React, { useEffect, useState } from 'react'
 import { useQueryClient } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -43,20 +43,20 @@ const MapBoardReadpage = () => {
 //     navigate(`/modify/${encodeURIComponent(place_name)}/${boardMapId}`)
 //   }
 
-//   const handleDeleteClick = async () => {
-//     try {
-//       await deleteBoard(boardId || '');
-//       queryClient.invalidateQueries('boardList');
-//       navigate('/board');
-//     } catch (error) {
-//       if (isAxiosError(error) && (error.response?.status === 500 || error.response?.status === 400)) {
-//         alert('삭제 권한이 없습니다.');
-//         navigate('/board')
-//       } else {
-//         console.error('삭제 중 오류가 발생했습니다:', error);
-//       }
-//     }
-//   };
+  const handleDeleteClick = async () => {
+    try {
+      await deleteBoard(place_name || '', boardMapId || '');
+      queryClient.invalidateQueries('boardList');
+      navigate(`/map/boardMapList/${encodeURIComponent(place_name || '')}`);
+    } catch (error) {
+      if (isAxiosError(error) && (error.response?.status === 500 || error.response?.status === 400)) {
+        alert('삭제 권한이 없습니다.');
+        navigate(`/map/boardMapList/${encodeURIComponent(place_name || '')}`)
+      } else {
+        console.error('삭제 중 오류가 발생했습니다:', error);
+      }
+    }
+  };
 
 const handleCancelClick = () => {
     queryClient.invalidateQueries('boardList');
@@ -79,12 +79,12 @@ const handleCancelClick = () => {
                 minRows={10} maxRows={10} sx={{ borderRadius: '4px' }}/>
       <TextField label="작성일자" name="createdData" disabled
                 value={board?.createdData || ''} sx={{ borderRadius: '4px' }}/>
-      {/* {isAuthorized && (
+      {isAuthorized && (
         <>
-          <Button variant="outlined" onClick={handleEditClick}>수정</Button>
+          {/* <Button variant="outlined" onClick={handleEditClick}>수정</Button> */}
           <Button variant="outlined" onClick={handleDeleteClick}>삭제</Button>
         </>
-      )} */}
+      )}
       <Button variant='outlined' onClick={handleCancelClick}>돌아가기</Button>
     </Box>
   </Container>
