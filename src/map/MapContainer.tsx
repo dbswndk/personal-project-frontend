@@ -53,7 +53,7 @@ function MapContainer() {
 
     const container = mapRef.current;
     const options = {
-      center: new window.kakao.maps.LatLng(33.450701, 126.570667),
+      center: new window.kakao.maps.LatLng(37.501229, 127.037217),
       level: 3,
     };
     const map = new window.kakao.maps.Map(container, options);
