@@ -39,9 +39,11 @@ const MapBoardReadpage = () => {
     fetchBoardData()
   }, [place_name ,boardMapId])
 
-//   const handleEditClick = () => {
-//     navigate(`/modify/${encodeURIComponent(place_name)}/${boardMapId}`)
-//   }
+  const handleEditClick = () => {
+    if (place_name) {
+      navigate(`/map/modify/${encodeURIComponent(place_name)}/${boardMapId}`)
+    }
+  }
 
   const handleDeleteClick = async () => {
     try {
@@ -81,7 +83,7 @@ const handleCancelClick = () => {
                 value={board?.createdData || ''} sx={{ borderRadius: '4px' }}/>
       {isAuthorized && (
         <>
-          {/* <Button variant="outlined" onClick={handleEditClick}>수정</Button> */}
+          <Button variant="outlined" onClick={handleEditClick}>수정</Button>
           <Button variant="outlined" onClick={handleDeleteClick}>삭제</Button>
         </>
       )}

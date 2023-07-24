@@ -1,6 +1,6 @@
 import { BoardMap } from "map/entity/BoardMap"
 import useBoardMapStore from "map/store/BoardMapStore"
-import { UseQueryResult, useQuery } from "react-query"
+import { UseMutationResult, UseQueryResult, useMutation, useQuery, useQueryClient } from "react-query"
 import axiosInstance from "utility/axiosInstance"
 
 // 리뷰 리스트
@@ -57,5 +57,28 @@ export const deleteBoard = async (place_name: string ,boardMapId: string): Promi
       Authorization: localStorage.getItem('accessToken'),
       "Content-Type": "application/json",
     },
+  })
+}
+
+// 리뷰 수정
+export const updateBoard = async (updatedData: BoardMap): Promise<BoardMap> => {
+  const { boardMapId, place_name, title, content, writer } = updatedData
+
+  const response = await axiosInstance.springAxiosInst.put<BoardMap>(`/map/${encodeURIComponent(place_name)}/${boardMapId}`, {title, content, writer}, {
+    headers: {
+      Authorization: localStorage.getItem('accessToken'),
+      "Content-Type": "application/json",
+    },
+  })
+  return response.data
+}
+
+export const useBoardUpdateMutation = (): UseMutationResult<BoardMap, unknown, BoardMap> => {
+  const QueryClient = useQueryClient()
+
+  return useMutation (updateBoard, {
+    onSuccess: (data) => {
+      QueryClient.setQueryData(['board', data.boardMapId], data)
+    }
   })
 }
