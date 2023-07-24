@@ -2,18 +2,18 @@ import { Button, CircularProgress, Container, Paper, Table, TableBody, TableCell
 import { fetchBoardList, useBoardListQuery } from 'map/api/BoardMapApi'
 import useBoardMapStore from 'map/store/BoardMapStore'
 import { useAuth } from 'pages/AuthConText'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 interface MapBoardListPageProps {
   place_name: string; 
 }
+
 const MapBoardListPage: React.FC<MapBoardListPageProps> = ({ place_name }) => {
   const { data: boards, isLoading, isError } = useBoardListQuery(place_name);
   const { checkAuthorization } = useAuth()
   const setBoards = useBoardMapStore((state) => state.setBoards)
   const Navigate = useNavigate()
-  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,20 +48,11 @@ const MapBoardListPage: React.FC<MapBoardListPageProps> = ({ place_name }) => {
     const isAuthorized = checkAuthorization();
 
     if (isAuthorized) {
-      Navigate('/boardMapRegister');
+      Navigate(`/map/boardMapRegister/${encodeURIComponent(place_name)}`, { state: { place_name } });
     } else {
       Navigate('/login');
     }
   };
-
-  // const handlePlaceNameChange = (event) => {
-  //   setPlaceName(event.target.value);
-  // };
-
-  // // 마커 클릭 이벤트 핸들러 생성
-  // const handleMarkerClick = (clickedPlaceName) => {
-  //   setPlaceName(clickedPlaceName); // 마커를 클릭한 placeName을 업데이트
-  // };
 
   return (
     <Container maxWidth="lg">
@@ -91,8 +82,7 @@ const MapBoardListPage: React.FC<MapBoardListPageProps> = ({ place_name }) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Button variant="contained" onClick={handleWriteClick}
-          color="primary" style={{ marginTop: '20px' }}>
+      <Button variant="contained" onClick={() => handleWriteClick()} color="primary" style={{ marginTop: '20px' }}>
         글쓰기
       </Button>
     </Container>

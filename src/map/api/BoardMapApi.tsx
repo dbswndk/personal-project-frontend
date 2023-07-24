@@ -23,14 +23,16 @@ export const useBoardListQuery = (place_name: string): UseQueryResult<BoardMap[]
 };
 
 // 리뷰 등록
-export const registerBoard = async (
-  data: { title: string; content: string }
-): Promise<BoardMap> => {
-  const response = await axiosInstance.springAxiosInst.post<BoardMap>('/map/boardMapRegister', data, {
+export const registerBoard = async (place_name: string, data: { title: string; content: string; }): 
+  Promise<BoardMap> => {
+  console.log('등록장소: ', place_name)
+  const response = await axiosInstance.springAxiosInst.post<BoardMap>(`/map/boardMapRegister/${encodeURIComponent(place_name)}`, data, {
     headers: {
       Authorization: localStorage.getItem('accessToken'),
       "Content-Type": "application/json",
     },
   });
+  console.log('placename: ', place_name)
+  console.log('게시글 정보: ', response.data)
   return response.data;
 };

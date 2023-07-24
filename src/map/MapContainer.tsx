@@ -26,7 +26,6 @@ const PopupContainer = styled.div`
   width: 80%;
 `;
 
-
 interface Place {
   place_name: string;
   address_name: string;

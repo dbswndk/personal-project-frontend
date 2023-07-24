@@ -14,7 +14,6 @@ import { AuthProvider } from 'pages/AuthConText';
 import BoardReadPage from 'board/page/BoardReadPage';
 import BoardModifyPage from 'board/page/BoardModifyPage';
 import MapContainer from 'map/MapContainer';
-import MapInfoPage from 'map/MapInfoPage';
 import MapBoardListPage from 'map/boardMapPage/MapBoardListPage';
 import MapBoardRegisterPage from 'map/boardMapPage/MapBoardRegisterPage';
 
@@ -45,8 +44,8 @@ function App(): JSX.Element {
               <Route path="/register" element={<BoardRegisterPage />} />
               <Route path="/read/:boardId" element={<BoardReadPage/>} />
               <Route path="/modify/:boardId" element={<BoardModifyPage/>} />
-              <Route path="/boardMapList" element={<MapBoardListPage place_name="" />} />
-              <Route path="/boardMapRegister" element={<MapBoardRegisterPage/>} />
+              <Route path="/boardMapList/:place_name" element={<MapBoardListPage place_name="" />} />
+              <Route path="/map/boardMapRegister/:place_name" element={<MapBoardRegisterPage />} />
             </Routes>
           </div>
       </BrowserRouter>
