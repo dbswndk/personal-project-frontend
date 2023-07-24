@@ -5,9 +5,11 @@ import { useAuth } from 'pages/AuthConText'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const MapBoardListPage = () => {
-  const [placeName, setPlaceName] = useState('');
-  const { data: boards, isLoading, isError } = useBoardListQuery(placeName);
+interface MapBoardListPageProps {
+  place_name: string; 
+}
+const MapBoardListPage: React.FC<MapBoardListPageProps> = ({ place_name }) => {
+  const { data: boards, isLoading, isError } = useBoardListQuery(place_name);
   const { checkAuthorization } = useAuth()
   const setBoards = useBoardMapStore((state) => state.setBoards)
   const Navigate = useNavigate()
@@ -15,23 +17,23 @@ const MapBoardListPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (placeName) {
-        const data = await fetchBoardList(placeName);
-        console.log('위치', placeName)
+      if (place_name) {
+        const data = await fetchBoardList(place_name);
+        console.log('위치', place_name);
         setBoards(data);
       }
     };
 
     fetchData();
-  }, [placeName, setBoards]);
+  }, [place_name, setBoards]);
 
-  // if (isLoading) {
-  //   return<CircularProgress/>
-  // }
+  if (isLoading) {
+    return<CircularProgress/>
+  }
 
-  // if (isError) {
-  //   return <Typography>에러 발생</Typography>
-  // }
+  if (isError) {
+    return <Typography>에러 발생</Typography>
+  }
 
   const handleRowClick = (boardId: number) => {
     const isAuthorized = checkAuthorization();
@@ -51,6 +53,15 @@ const MapBoardListPage = () => {
       Navigate('/login');
     }
   };
+
+  // const handlePlaceNameChange = (event) => {
+  //   setPlaceName(event.target.value);
+  // };
+
+  // // 마커 클릭 이벤트 핸들러 생성
+  // const handleMarkerClick = (clickedPlaceName) => {
+  //   setPlaceName(clickedPlaceName); // 마커를 클릭한 placeName을 업데이트
+  // };
 
   return (
     <Container maxWidth="lg">

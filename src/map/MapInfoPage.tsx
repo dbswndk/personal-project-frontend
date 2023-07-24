@@ -12,10 +12,12 @@ interface MapInfoPageProps {
   onClose: () => void;
 }
 
-const MapInfoPage: React.FC<MapInfoPageProps> = ({ place, onClose }) => {
+const MapInfoPage: React.FC<MapInfoPageProps> = ({ place }) => {
   if (!place) {
     return null;
   }
+
+  const { place_name } = place;
 
   return (
     <div>
@@ -24,7 +26,7 @@ const MapInfoPage: React.FC<MapInfoPageProps> = ({ place, onClose }) => {
         <p>주소: {place.address_name}</p>
         <p>전화번호: {place.phone}</p>
       </div>
-      <MapBoardListPage/>
+      <MapBoardListPage place_name={place_name} />
     </div>
   );
 };

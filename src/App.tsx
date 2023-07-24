@@ -45,7 +45,7 @@ function App(): JSX.Element {
               <Route path="/register" element={<BoardRegisterPage />} />
               <Route path="/read/:boardId" element={<BoardReadPage/>} />
               <Route path="/modify/:boardId" element={<BoardModifyPage/>} />
-              <Route path="/boardMapList" element={<MapBoardListPage/>} />
+              <Route path="/boardMapList" element={<MapBoardListPage place_name="" />} />
               <Route path="/boardMapRegister" element={<MapBoardRegisterPage/>} />
             </Routes>
           </div>

@@ -104,6 +104,9 @@ function MapContainer() {
     setSelectedPlace(place);
     setShowMapInfoPage(true);
 
+    const { place_name } = place;
+    console.log('클릭한 placeName:', place_name);
+
     const newPath = `/map/boardMapList/${encodeURIComponent(place.place_name)}`;
     window.history.replaceState({}, '', newPath);
   }
