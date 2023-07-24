@@ -8,7 +8,7 @@ const MapBoardRegisterPage: React.FC = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { place_name } = useParams<{ place_name: string }>(); 
-  const [writer] = useState('');
+  const [writer] = useState(''); 
   const mutation = useMutation(
     (data: { title: string; content: string }) => {
       if (place_name) {
@@ -21,7 +21,8 @@ const MapBoardRegisterPage: React.FC = () => {
       onSuccess: (data) => {
         queryClient.setQueryData('board', data);
         if (place_name) {
-          navigate(`/map/boardMapList/${encodeURIComponent(place_name)}`);
+          navigate(`/map?selectedPlace=${encodeURIComponent(place_name)}`);
+          // navigate(`/map/boardMapList/${encodeURIComponent(place_name)}`);
         }
       }
     }
