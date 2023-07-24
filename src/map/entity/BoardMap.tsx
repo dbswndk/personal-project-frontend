@@ -1,6 +1,7 @@
 export interface BoardMap {
   accountId: number;
-  boardId: number;
+  boardMapId: number;
+  place_name: string;
   title: string;
   writer: string;
   content: string;

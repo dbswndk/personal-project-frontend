@@ -35,12 +35,12 @@ const MapBoardListPage: React.FC<MapBoardListPageProps> = ({ place_name }) => {
     return <Typography>에러 발생</Typography>
   }
 
-  const handleRowClick = (boardId: number) => {
+  const handleRowClick = (boardMapId: number) => {
     const isAuthorized = checkAuthorization();
     if (isAuthorized) {
-      // Navigate(`/read/${boardId}`);
+      Navigate(`read/${encodeURIComponent(place_name)}/${boardMapId}`);
     } else {
-      // Navigate('/login');
+      Navigate('/login');
     }
   };
 
@@ -72,7 +72,7 @@ const MapBoardListPage: React.FC<MapBoardListPageProps> = ({ place_name }) => {
               </TableRow>
             ) : (
               boards?.map((board) => (
-                <TableRow key={board?.boardId} onClick={() => handleRowClick(board?.boardId)} style={{ cursor: 'pointer' }}>
+                <TableRow key={board?.boardMapId} onClick={() => handleRowClick(board?.boardMapId)} style={{ cursor: 'pointer' }}>
                   <TableCell>{ board.title }</TableCell>
                   <TableCell>{ board.writer }</TableCell>
                   <TableCell>{ new Date(board.createdData).toISOString().slice(0, 10) }</TableCell>

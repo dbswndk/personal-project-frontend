@@ -25,7 +25,6 @@ export const useBoardListQuery = (place_name: string): UseQueryResult<BoardMap[]
 // 리뷰 등록
 export const registerBoard = async (place_name: string, data: { title: string; content: string; }): 
   Promise<BoardMap> => {
-  console.log('등록장소: ', place_name)
   const response = await axiosInstance.springAxiosInst.post<BoardMap>(`/map/boardMapRegister/${encodeURIComponent(place_name)}`, data, {
     headers: {
       Authorization: localStorage.getItem('accessToken'),
@@ -33,6 +32,20 @@ export const registerBoard = async (place_name: string, data: { title: string; c
     },
   });
   console.log('placename: ', place_name)
-  console.log('게시글 정보: ', response.data)
   return response.data;
 };
+
+// 리뷰 읽기
+export const fetchBoard = async (place_name: string, boardMapId: string): Promise<BoardMap | null> => {
+  const response = await axiosInstance.springAxiosInst.get<BoardMap>(`/map/${encodeURIComponent(place_name)}/${boardMapId}`, {
+    headers: {
+      Authorization: localStorage.getItem('accessToken'),
+      "Content-Type": "application/json",
+    },
+  })
+  return response.data
+}
+
+export const useBoardQuery = (place_name: string, boardMapId: string): UseQueryResult<BoardMap | null, unknown> => {
+  return useQuery(['board', boardMapId], () =>  fetchBoard(place_name, boardMapId))
+}

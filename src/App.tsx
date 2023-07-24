@@ -16,6 +16,7 @@ import BoardModifyPage from 'board/page/BoardModifyPage';
 import MapContainer from 'map/MapContainer';
 import MapBoardListPage from 'map/boardMapPage/MapBoardListPage';
 import MapBoardRegisterPage from 'map/boardMapPage/MapBoardRegisterPage';
+import MapBoardReadpage from 'map/boardMapPage/MapBoardReadpage';
 
 function App(): JSX.Element {
 
@@ -46,6 +47,7 @@ function App(): JSX.Element {
               <Route path="/modify/:boardId" element={<BoardModifyPage/>} />
               <Route path="/boardMapList/:place_name" element={<MapBoardListPage place_name="" />} />
               <Route path="/map/boardMapRegister/:place_name" element={<MapBoardRegisterPage />} />
+              <Route path="/map/read/:place_name/:boardMapId" element={<MapBoardReadpage />} />
             </Routes>
           </div>
       </BrowserRouter>
