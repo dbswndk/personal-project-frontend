@@ -5,26 +5,23 @@ import { useQueryClient } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
 import { isAxiosError } from 'utility/axiosInstance'
 
-interface RouteParams {
-  boardMapId: string
-  place_name: string 
-  [key: string]: string
+interface MapBoardReadPageProps {
+  place_name: string;
+  boardMapId: number | string; 
+  // [key: string]: string
+  setIsReading: React.Dispatch<React.SetStateAction<number | null>>; // 타입 수정
 }
 
-const MapBoardReadpage = () => {
+const MapBoardReadPage: React.FC<MapBoardReadPageProps> = ({ place_name, boardMapId, setIsReading }) => {
   const navigate = useNavigate()
-  const { place_name, boardMapId } = useParams<RouteParams>() 
   const queryClient = useQueryClient()
   const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
 
-  const { data: board } = useBoardQuery(place_name || '', boardMapId || '')
-  console.log('boardMapId확인', boardMapId)
+  const { data: board } = useBoardQuery(place_name || '', boardMapId.toString())
 
   useEffect(() => {
     const fetchBoardData = async () => {
-      const data = await fetchBoard(place_name || '' ,boardMapId || '')
-      console.log(data)
-
+      const data = await fetchBoard(place_name || '', boardMapId.toString());
       const serverAccountId = data?.accountId;
       const localStorageAccountId = localStorage.getItem('accountId');
 
@@ -35,9 +32,9 @@ const MapBoardReadpage = () => {
           setIsAuthorized(true);
         }
       }
-    }
-    fetchBoardData()
-  }, [place_name ,boardMapId])
+    };
+    fetchBoardData();
+  }, [place_name, boardMapId]);
 
   const handleEditClick = () => {
     if (place_name) {
@@ -47,24 +44,22 @@ const MapBoardReadpage = () => {
 
   const handleDeleteClick = async () => {
     try {
-      await deleteBoard(place_name || '', boardMapId || '');
+      await deleteBoard(place_name || '', boardMapId.toString());
       queryClient.invalidateQueries('boardList');
-      navigate(`/map/boardMapList/${encodeURIComponent(place_name || '')}`);
+      setIsReading(null); 
     } catch (error) {
       if (isAxiosError(error) && (error.response?.status === 500 || error.response?.status === 400)) {
         alert('삭제 권한이 없습니다.');
-        navigate(`/map/boardMapList/${encodeURIComponent(place_name || '')}`)
+        setIsReading(null); 
       } else {
         console.error('삭제 중 오류가 발생했습니다:', error);
       }
     }
   };
 
-const handleCancelClick = () => {
+  const handleCancelClick = () => {
     queryClient.invalidateQueries('boardList');
-    if (place_name) {
-      navigate(`/map/boardMapList/${encodeURIComponent(place_name)}`);
-    }
+    setIsReading(null); 
   };
 
   return (
@@ -93,4 +88,4 @@ const handleCancelClick = () => {
   )
 }
 
-export default MapBoardReadpage
+export default MapBoardReadPage

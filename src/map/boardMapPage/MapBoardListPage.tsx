@@ -5,6 +5,7 @@ import { useAuth } from 'pages/AuthConText'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import MapBoardRegisterPage from './MapBoardRegisterPage'
+import MapBoardReadPage from './MapBoardReadPage'
 
 interface MapBoardListPageProps {
   place_name: string; 
@@ -12,13 +13,14 @@ interface MapBoardListPageProps {
 
 const MapBoardListPage: React.FC<MapBoardListPageProps> = ({ place_name }) => {
   const [isWriting, setIsWriting] = useState(false);
+  const [isReading, setIsReading] = useState<number | null>(null); 
   const { data: boards, isLoading, isError } = useBoardListQuery(place_name);
   const { checkAuthorization } = useAuth();
   const setBoards = useBoardMapStore((state) => state.setBoards);
   const Navigate = useNavigate();
 
   useEffect(() => {
-    if (isWriting) {
+    if (isWriting !== null || isReading !== null) {
       return;
     }
 
@@ -30,7 +32,7 @@ const MapBoardListPage: React.FC<MapBoardListPageProps> = ({ place_name }) => {
     };
 
     fetchData();
-  }, [place_name, setBoards, isWriting]);
+  }, [place_name, setBoards, isWriting, isReading]);
 
   if (isLoading) {
     return <CircularProgress />;
@@ -43,7 +45,7 @@ const MapBoardListPage: React.FC<MapBoardListPageProps> = ({ place_name }) => {
   const handleRowClick = (boardMapId: number) => {
     const isAuthorized = checkAuthorization();
     if (isAuthorized) {
-      Navigate(`read/${encodeURIComponent(place_name)}/${boardMapId}`);
+      setIsReading(boardMapId);
     } else {
       Navigate('/login');
     }
@@ -65,35 +67,41 @@ const MapBoardListPage: React.FC<MapBoardListPageProps> = ({ place_name }) => {
         <MapBoardRegisterPage place_name={place_name} setIsWriting={setIsWriting} />
       ) : (
         <React.Fragment>
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="board table">
-              <TableHead>
-                <TableRow>
-                  <TableCell style={{ width: '50%'}}>제목</TableCell>
-                  <TableCell align='right'>작성자</TableCell>
-                  <TableCell align='right'>작성일자</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                { boards?.length ===0 ? (
-                  <TableRow>
-                    <TableCell colSpan={3} align='center'>등록된 게시물이 없습니다</TableCell>
-                  </TableRow>
-                ) : (
-                  boards?.map((board) => (
-                    <TableRow key={board?.boardMapId} onClick={() => handleRowClick(board?.boardMapId)} style={{ cursor: 'pointer' }}>
-                      <TableCell>{ board.title }</TableCell>
-                      <TableCell>{ board.writer }</TableCell>
-                      <TableCell>{ new Date(board.createdData).toISOString().slice(0, 10) }</TableCell>
+          {isReading ? (
+            <MapBoardReadPage place_name={place_name} boardMapId={isReading} setIsReading={setIsReading} />
+          ) : (
+            <React.Fragment>
+              <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="board table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell style={{ width: '50%'}}>제목</TableCell>
+                      <TableCell align='right'>작성자</TableCell>
+                      <TableCell align='right'>작성일자</TableCell>
                     </TableRow>
-                  ))
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <Button variant="contained" onClick={() => handleWriteClick()} color="primary" style={{ marginTop: '20px' }}>
-            글쓰기
-          </Button>
+                  </TableHead>
+                  <TableBody>
+                    { boards?.length === 0 ? (
+                      <TableRow>
+                        <TableCell colSpan={3} align='center'>등록된 게시물이 없습니다</TableCell>
+                      </TableRow>
+                    ) : (
+                      boards?.map((board) => (
+                        <TableRow key={board?.boardMapId} onClick={() => handleRowClick(board?.boardMapId)} style={{ cursor: 'pointer' }}>
+                          <TableCell>{ board.title }</TableCell>
+                          <TableCell>{ board.writer }</TableCell>
+                          <TableCell>{ new Date(board.createdData).toISOString().slice(0, 10) }</TableCell>
+                        </TableRow>
+                      ))
+                    )}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <Button variant="contained" onClick={() => handleWriteClick()} color="primary" style={{ marginTop: '20px' }}>
+                글쓰기
+              </Button>
+            </React.Fragment>
+          )}
         </React.Fragment>
       )}
     </Container>
