@@ -2,21 +2,21 @@ import { Box, Button, Container, TextField } from '@mui/material'
 import { deleteBoard, fetchBoard, useBoardQuery } from 'map/api/BoardMapApi'
 import React, { useEffect, useState } from 'react'
 import { useQueryClient } from 'react-query'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { isAxiosError } from 'utility/axiosInstance'
+import MapBoardModifyPage from './MapBoardModifyPage'
 
 interface MapBoardReadPageProps {
   place_name: string;
   boardMapId: number | string; 
-  // [key: string]: string
-  setIsReading: React.Dispatch<React.SetStateAction<number | null>>; // 타입 수정
+  setIsReading: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 const MapBoardReadPage: React.FC<MapBoardReadPageProps> = ({ place_name, boardMapId, setIsReading }) => {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
-
+  const [isEditing, setIsEditing] = useState<boolean>(false);
   const { data: board } = useBoardQuery(place_name || '', boardMapId.toString())
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const MapBoardReadPage: React.FC<MapBoardReadPageProps> = ({ place_name, boardMa
 
   const handleEditClick = () => {
     if (place_name) {
-      navigate(`/map/modify/${encodeURIComponent(place_name)}/${boardMapId}`)
+      setIsEditing(true); 
     }
   }
 
@@ -64,6 +64,9 @@ const MapBoardReadPage: React.FC<MapBoardReadPageProps> = ({ place_name, boardMa
 
   return (
     <Container maxWidth="md" sx={{ marginTop: '2em' }}>
+    {isEditing ? (
+          <MapBoardModifyPage place_name={place_name} boardMapId={boardMapId} setIsEditing={setIsEditing} />
+        ) : (
     <Box display="flex" flexDirection="column" gap={2} p={2}>
       <TextField label="제목" name="title" disabled 
                 value={board?.title || ''} sx={{ borderRadius: '4px' }}/>
@@ -84,6 +87,7 @@ const MapBoardReadPage: React.FC<MapBoardReadPageProps> = ({ place_name, boardMa
       )}
       <Button variant='outlined' onClick={handleCancelClick}>돌아가기</Button>
     </Box>
+    )}
   </Container>
   )
 }

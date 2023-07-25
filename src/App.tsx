@@ -15,12 +15,8 @@ import BoardReadPage from 'board/page/BoardReadPage';
 import BoardModifyPage from 'board/page/BoardModifyPage';
 import MapContainer from 'map/MapContainer';
 import MapBoardListPage from 'map/boardMapPage/MapBoardListPage';
-import MapBoardRegisterPage from 'map/boardMapPage/MapBoardRegisterPage';
-import MapBoardReadPage from 'map/boardMapPage/MapBoardReadPage';
-import MapBoardModifyPage from 'map/boardMapPage/MapBoardModifyPage';
 
 function App(): JSX.Element {
-
   return (
     <AuthProvider>
       <BrowserRouter>
@@ -47,9 +43,6 @@ function App(): JSX.Element {
               <Route path="/read/:boardId" element={<BoardReadPage/>} />
               <Route path="/modify/:boardId" element={<BoardModifyPage/>} />
               <Route path="/boardMapList/:place_name" element={<MapBoardListPage place_name="" />} />
-              {/* <Route path="/map/boardMapRegister/:place_name" element={<MapBoardRegisterPage />} /> */}
-              {/* <Route path="/map/read/:place_name/:boardMapId" element={<MapBoardReadPage />} /> */}
-              <Route path="/map/modify/:place_name/:boardMapId" element={<MapBoardModifyPage />} />
             </Routes>
           </div>
       </BrowserRouter>
