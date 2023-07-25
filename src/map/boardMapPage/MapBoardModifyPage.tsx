@@ -3,20 +3,19 @@ import { AxiosError } from 'axios'
 import { useBoardQuery, useBoardUpdateMutation } from 'map/api/BoardMapApi'
 import React, { useState } from 'react'
 import { useQueryClient } from 'react-query'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
-interface RouteParams {
-  boardMapId: string
-  place_name: string 
-  [key: string]: string
+interface MapBoardModifyPageProps {
+  place_name: string;
+  boardMapId: number | string; 
+  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const BoardMapModifyPage = () => {
+const BoardMapModifyPage: React.FC<MapBoardModifyPageProps> = ({ place_name, boardMapId, setIsEditing }) => {
   const navigate = useNavigate()
-  const { boardMapId, place_name } = useParams<RouteParams>()
   const queryClient = useQueryClient()
 
-  const { data: board } = useBoardQuery(place_name || '', boardMapId || '')
+  const { data: board } = useBoardQuery(place_name || '', boardMapId.toString())
   const mutation = useBoardUpdateMutation()
 
   const [title, setTitle] = useState(board?.title || '')
@@ -32,7 +31,7 @@ const BoardMapModifyPage = () => {
       try {
         await mutation.mutateAsync(updatedData)
         queryClient.invalidateQueries(['board', boardMapId])
-        navigate(`read/${encodeURIComponent(place_name || '')}/${boardMapId}`)
+        setIsEditing(false);
       } catch (error) {
         if ((error as AxiosError).response && ((error as AxiosError).response?.status === 400)) {
           alert('권한이 없습니다.');
@@ -45,8 +44,8 @@ const BoardMapModifyPage = () => {
   }
   const handleCancelClick = () => {
     if (place_name) {
-        queryClient.invalidateQueries('boardList')
-        navigate(`read/${encodeURIComponent(place_name)}/${boardMapId}`)
+      queryClient.invalidateQueries('boardList')
+      setIsEditing(false);
     }
   }
 
