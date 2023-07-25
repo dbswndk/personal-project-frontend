@@ -1,28 +1,31 @@
 import { Box, Button, Container, TextField } from '@mui/material'
-import { registerBoard } from 'map/api/BoardMapApi'
+import { fetchBoardList, registerBoard } from 'map/api/BoardMapApi'
 import React, { useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
 
-const MapBoardRegisterPage: React.FC = () => {
+interface MapBoardRegisterPageProps {
+  place_name: string;
+  setIsWriting: React.Dispatch<React.SetStateAction<boolean>>; 
+}
+
+const MapBoardRegisterPage: React.FC<MapBoardRegisterPageProps> = ({ place_name, setIsWriting }) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { place_name } = useParams<{ place_name: string }>(); 
   const [writer] = useState(''); 
   const mutation = useMutation(
     (data: { title: string; content: string }) => {
       if (place_name) {
         return registerBoard(place_name, data);
       } else {
-        throw new Error("place_name이 undefined입니다.");
+        throw new Error("해당하는 장소가 존재하지않습니다.");
       }
     },
     {
       onSuccess: (data) => {
-        queryClient.setQueryData('board', data);
+        queryClient.invalidateQueries('boardList'); 
         if (place_name) {
           navigate(`/map?selectedPlace=${encodeURIComponent(place_name)}`);
-          // navigate(`/map/boardMapList/${encodeURIComponent(place_name)}`);
         }
       }
     }
@@ -47,6 +50,8 @@ const MapBoardRegisterPage: React.FC = () => {
       content: content.value,
     };
     await mutation.mutateAsync(data);
+
+    setIsWriting(false);
   };
 
   return (

@@ -47,7 +47,7 @@ function App(): JSX.Element {
               <Route path="/read/:boardId" element={<BoardReadPage/>} />
               <Route path="/modify/:boardId" element={<BoardModifyPage/>} />
               <Route path="/boardMapList/:place_name" element={<MapBoardListPage place_name="" />} />
-              <Route path="/map/boardMapRegister/:place_name" element={<MapBoardRegisterPage />} />
+              {/* <Route path="/map/boardMapRegister/:place_name" element={<MapBoardRegisterPage />} /> */}
               <Route path="/map/read/:place_name/:boardMapId" element={<MapBoardReadpage />} />
               <Route path="/map/modify/:place_name/:boardMapId" element={<MapBoardModifyPage />} />
             </Routes>
