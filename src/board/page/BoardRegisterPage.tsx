@@ -14,7 +14,7 @@ const BoardRegisterPage = () => {
       queryClient.setQueryData('board', data)
       // navigate(`/read/${data.boardId}`)
       console.log('전송정보: ', data)
-      navigate('/list')
+      navigate('/board')
     }
   })
 
