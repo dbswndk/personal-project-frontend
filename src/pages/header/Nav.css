@@ -1,20 +1,28 @@
 .navbar {
   width: 100%;
-  background-color: black;
-  padding: 15px 0px;
-  text-align: right;
+  background-color: rgb(255, 255, 255);
+  padding: 0px 0px;
+  display: flex; /* flex 컨테이너로 설정합니다. */
 }
 
 .Menu {
-  color: white;
+  color: black;
   margin: 8px;
   text-decoration: none;
 }
 
 .Menu-logout {
-  color: white;
+  color: black;
   background-color: transparent;
   border: none;
   cursor: pointer;
   font-size: 16px;
+}
+
+.PetCareFinder {
+  color: black;
+  margin: 8px;
+  text-decoration: none;
+  margin-right: auto;
+  text-align: left;
 }

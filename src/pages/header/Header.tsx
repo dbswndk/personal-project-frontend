@@ -30,7 +30,7 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
   return (
     <div>
       <div className='navbar'>
-        <Link className='Menu' to={'/'}>홈</Link>
+        <Link className='PetCareFinder' to={'/'}>PetCareFinder</Link>
         {isLoggedIn ? (
           <>
             <button className='Menu-logout' onClick={handleLogout}>로그아웃</button>

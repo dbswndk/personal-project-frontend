@@ -1,9 +1,22 @@
-import { Box, Container, Grid, TextField, Button, Snackbar } from '@mui/material'
+import { Box, Container, Grid, TextField, Button, Snackbar, Typography, createTheme } from '@mui/material'
 import { loginAccount } from 'account/api/AccountApi';
 import { useAuth } from 'pages/AuthConText';
 import React, { useState, useEffect } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
+import './css/LoginPage.css';
+
+// const theme = createTheme({
+//   components: {
+//     MuiFilledInput: {
+//       styleOverrides: {
+//         root: {
+//           width: '70%',
+//         },
+//       },
+//     },
+//   },
+// });
 
 const LogInPage = () => {
   const navigate = useNavigate()
@@ -57,25 +70,28 @@ const LogInPage = () => {
   }, [navigate]);
 
   return (
-    <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" minHeight="100vh">
-      <Container maxWidth="sm">
+    <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" minHeight="100vh" >
+      <Container maxWidth="xs">
+        <Typography variant="h4" gutterBottom>LOGIN</Typography>
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <div style={{ position: 'relative' }}>
-                <TextField label='이메일' name='email' fullWidth variant="filled" margin="normal"
-                              sx={{ borderRadius: '2px' }} value={formData.email} onChange={handleChange} />
+              <TextField label='이메일' name='email' fullWidth variant="filled" margin="normal"
+                            className="custom-input" InputLabelProps={{ shrink: true }} InputProps={{
+                            disableUnderline: true }} value={formData.email} onChange={handleChange} />
               </div>
             </Grid>
             <Grid item xs={12}>
               <div style={{ position: 'relative' }}>
                 <TextField label='비밀번호' name='password' fullWidth variant="filled" margin="normal"
-                              sx={{ borderRadius: '2px' }} value={formData.password} onChange={handleChange} />
+                            className="custom-input" InputLabelProps={{ shrink: true }} InputProps={{
+                              disableUnderline: true }} value={formData.password} onChange={handleChange} />
               </div>
             </Grid>
             <Grid item xs={12}>
-              <Button type="submit" variant="contained" fullWidth>
-                로그인
+              <Button type="submit" variant="contained" style={{ backgroundColor: 'black', color: 'white' }} fullWidth>
+                LOGIN
               </Button>
             </Grid>
           </Grid>

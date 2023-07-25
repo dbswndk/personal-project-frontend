@@ -3,10 +3,13 @@ import { Box, Button, Container, Grid, TextField } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useMutation, useQueryClient } from 'react-query'
 import { accessSignupAccount, checkEmailDuplicate } from '../api/AccountApi'
+import './css/TotalSignUpPage.css'; 
 
 const SignUpPage = () => {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
+  const activeColor = 'rgba(0, 0, 0, 0.5)';
+  const inactiveColor = '#cccccc';
   const mutation = useMutation(accessSignupAccount, {
     onSuccess: (data) => {
       queryClient.setQueriesData('account', data)
@@ -144,24 +147,24 @@ const SignUpPage = () => {
   
   return (
     <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" minHeight="100vh">
-      <Container maxWidth="sm">
+      <Container maxWidth="xs">
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
           <Grid item xs={12}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <div style={{ position: 'relative', flex: 1 }}>
-                <TextField label='이메일' name='email' fullWidth variant="filled" margin="normal"
+                <TextField label='이메일' name='email' fullWidth variant="filled" margin="normal" className="custom-input"
                               sx={{ borderRadius: '2px', minWidth: '200px' }} onChange={onChangeEmail} />
                 {emailMessage && <p style={{ fontSize: '12px', color: 'red', 
                               marginTop: '5px', position: 'absolute', bottom: '-20px' }}>{emailMessage}</p>}
               </div>
-              <Button variant="contained" color="primary" onClick={handleDuplicateCheck} 
-                              style={{ marginLeft: '10px', minWidth: '120px' }}>중복 확인</Button>
+              <Button variant="contained" color="primary" onClick={handleDuplicateCheck} style={{ marginLeft: '10px', minWidth: '120px', 
+                              backgroundColor: 'rgba(0, 0, 0, 0.5)', color: 'white' }}>중복 확인</Button>
             </div>
           </Grid>
             <Grid item xs={12}>
               <div style={{ position: 'relative' }}>
-                <TextField label='비밀번호' name='password' fullWidth variant="filled" margin="normal"
+                <TextField label='비밀번호' name='password' fullWidth variant="filled" margin="normal" className="custom-input"
                               sx={{ borderRadius: '2px' }} onChange={onChangePassword} />
                 {passwordMessage && <p style={{ fontSize: '12px', color: 'red', 
                               marginTop: '5px', position: 'absolute', bottom: '-20px' }}>{passwordMessage}</p>}
@@ -169,7 +172,7 @@ const SignUpPage = () => {
             </Grid>
             <Grid item xs={12}>
               <div style={{ position: 'relative' }}>
-                <TextField label='비밀번호 확인' name='checkPassword' fullWidth variant="filled" margin="normal"
+                <TextField label='비밀번호 확인' name='checkPassword' fullWidth variant="filled" margin="normal" className="custom-input"
                               sx={{ borderRadius: '2px' }} onChange={onChangePasswordCheck} />
                 {passwordCheckMessage && <p style={{ fontSize: '12px', color: 'red', 
                               marginTop: '5px', position: 'absolute', bottom: '-20px' }}>{passwordCheckMessage}</p>}
@@ -177,14 +180,14 @@ const SignUpPage = () => {
             </Grid>
             <Grid item xs={12}>
               <div style={{ position: 'relative' }}>
-                <TextField label='인증번호' name='accessNumber' fullWidth variant="filled" margin="normal"
+                <TextField label='인증번호' name='accessNumber' fullWidth variant="filled" margin="normal" className="custom-input"
                               sx={{ borderRadius: '2px' }} onChange={handleAccessNumber} />
                 {accessNumberMessage && <p style={{ fontSize: '12px', color: 'red', 
                               marginTop: '5px', position: 'absolute', bottom: '-20px' }}>{accessNumberMessage}</p>}
               </div>
             </Grid>
             <Grid item xs={12}>
-            <Button type='submit' variant="contained" color="primary" fullWidth disabled={!isEmailDuplicateChecked || !isFormValid}>
+            <Button type='submit' variant="contained" style={{ backgroundColor: isFormValid ? activeColor : inactiveColor, color: 'white' }} fullWidth disabled={!isEmailDuplicateChecked || !isFormValid}>
               회원가입
             </Button>
             </Grid>
