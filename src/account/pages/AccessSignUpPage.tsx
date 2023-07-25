@@ -165,7 +165,7 @@ const SignUpPage = () => {
             <Grid item xs={12}>
               <div style={{ position: 'relative' }}>
                 <TextField label='비밀번호' name='password' fullWidth variant="filled" margin="normal" className="custom-input"
-                              sx={{ borderRadius: '2px' }} onChange={onChangePassword} />
+                              type="password" sx={{ borderRadius: '2px' }} onChange={onChangePassword} />
                 {passwordMessage && <p style={{ fontSize: '12px', color: 'red', 
                               marginTop: '5px', position: 'absolute', bottom: '-20px' }}>{passwordMessage}</p>}
               </div>
@@ -173,7 +173,7 @@ const SignUpPage = () => {
             <Grid item xs={12}>
               <div style={{ position: 'relative' }}>
                 <TextField label='비밀번호 확인' name='checkPassword' fullWidth variant="filled" margin="normal" className="custom-input"
-                              sx={{ borderRadius: '2px' }} onChange={onChangePasswordCheck} />
+                              type="password" sx={{ borderRadius: '2px' }} onChange={onChangePasswordCheck} />
                 {passwordCheckMessage && <p style={{ fontSize: '12px', color: 'red', 
                               marginTop: '5px', position: 'absolute', bottom: '-20px' }}>{passwordCheckMessage}</p>}
               </div>

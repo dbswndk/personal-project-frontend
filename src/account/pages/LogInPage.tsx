@@ -85,8 +85,8 @@ const LogInPage = () => {
             <Grid item xs={12}>
               <div style={{ position: 'relative' }}>
                 <TextField label='비밀번호' name='password' fullWidth variant="filled" margin="normal"
-                            className="custom-input" InputLabelProps={{ shrink: true }} InputProps={{
-                              disableUnderline: true }} value={formData.password} onChange={handleChange} />
+                            className="custom-input" InputLabelProps={{ shrink: true }} InputProps={{ type: 'password',
+                            disableUnderline: true }} value={formData.password} onChange={handleChange} />
               </div>
             </Grid>
             <Grid item xs={12}>
