@@ -14,15 +14,11 @@ const MyInfoPage = () => {
     if (accessToken && !account) { 
       const fetchAccountData = async () => {
         const accountData = await fetchAccount();
-        console.log("accountData:", accountData);
       };
 
       fetchAccountData();
     }
   }, [accessToken, account]);
-
-  console.log('account: ', account);
-  console.log('accessToken: ', accessToken);
 
   const handleEditClick = () => {
     navigate(`/account/myPage`);

@@ -1,8 +1,8 @@
 import { Box, Button, Container, TextField } from '@mui/material'
-import { fetchBoardList, registerBoard } from 'map/api/BoardMapApi'
+import { registerBoard } from 'map/api/BoardMapApi'
 import React, { useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 interface MapBoardRegisterPageProps {
   place_name: string;
@@ -25,7 +25,7 @@ const MapBoardRegisterPage: React.FC<MapBoardRegisterPageProps> = ({ place_name,
       onSuccess: (data) => {
         queryClient.invalidateQueries('boardList'); 
         if (place_name) {
-          navigate(`/map?selectedPlace=${encodeURIComponent(place_name)}`);
+          setIsWriting(false);
         }
       }
     }

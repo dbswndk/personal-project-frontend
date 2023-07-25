@@ -8,10 +8,9 @@ export const signupAccount = async (
   ): Promise<Account> => {
     const setData = {
       ...data,
-      roleType: data.roleType || 'NORMAL' // roleType이 없을 경우 기본값으로 'NORMAL' 설정
+      roleType: data.roleType || 'NORMAL' 
     };
     const response = await axiosInstance.springAxiosInst.post<Account>('/account/sign-up', setData);
-    console.log('회원가입 정보:', setData);
     return response.data;
   };
 
@@ -65,6 +64,5 @@ export const accessSignupAccount = async (
       roleType: data.roleType || 'ADMIN'
     };
     const response = await axiosInstance.springAxiosInst.post<Account>('/account/admin-sign-up', setData);
-    console.log('관리자 회원 가입 정보:', setData);
     return response.data;
   };

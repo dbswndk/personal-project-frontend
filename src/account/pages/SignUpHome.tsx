@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './TotalSignUpPage.css'; // CSS 파일을 import 합니다.
+import './TotalSignUpPage.css'; 
 
 const TotalSignUpPage = () => {
   return (

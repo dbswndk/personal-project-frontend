@@ -6,7 +6,6 @@ import axiosInstance from "utility/axiosInstance"
 // 리뷰 리스트
 export const fetchBoardList = async (place_name: string): Promise<BoardMap[]> => {
   const response = await axiosInstance.springAxiosInst.get<BoardMap[]>(`/map/boardMapList/${encodeURIComponent(place_name)}`);
-  console.log('장소확인: ', place_name)
   return response.data;
 };
   
