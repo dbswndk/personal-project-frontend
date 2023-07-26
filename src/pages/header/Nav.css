@@ -2,7 +2,7 @@
   width: 100%;
   background-color: rgb(255, 255, 255);
   padding: 0px 0px;
-  display: flex; /* flex 컨테이너로 설정합니다. */
+  display: flex;
 }
 
 .Menu {
@@ -25,4 +25,14 @@
   text-decoration: none;
   margin-right: auto;
   text-align: left;
+}
+
+.search-bar-container {
+  margin: auto; 
+  display: flex;
+  align-items: center;
+}
+
+.search-bar-container input {
+  margin-left: 10px; 
 }

@@ -15,6 +15,7 @@ import BoardReadPage from 'board/page/BoardReadPage';
 import BoardModifyPage from 'board/page/BoardModifyPage';
 import MapContainer from 'map/MapContainer';
 import MapBoardListPage from 'map/boardMapPage/MapBoardListPage';
+import SearchResultsPage from 'pages/SearchResultsPage';
 
 function App(): JSX.Element {
   return (
@@ -26,6 +27,7 @@ function App(): JSX.Element {
               <Header>
                 <Routes>
                   <Route path="/" element={<Home />} />
+                  <Route path="/search/:searchTerm" element={<SearchResultsPage />} />
                   <Route path="/login" element={<LogInPage />} />
                   <Route path="/signupHome" element={<SignUpHome />} />
                   <Route path="/myPage" element={<MyInfoPage />} />
