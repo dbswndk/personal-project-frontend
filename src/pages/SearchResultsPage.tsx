@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchBoardList } from 'pages/api/HeaderApi';
+import BoardListPage from 'board/page/BoardListPage';
 import { Board } from 'board/entity/Board';
 
 const SearchResultsPage: React.FC = () => {
@@ -19,21 +20,14 @@ const SearchResultsPage: React.FC = () => {
           setSearchResults([]);
         });
     } else {
-      setSearchResults([]); 
+      setSearchResults([]);
     }
   }, [searchTerm]);
 
   return (
     <div>
-      {searchResults.length > 0 ? (
-        <div>
-          {searchResults.map((board) => (
-            <div key={board.boardId}>{board.title}</div>
-          ))}
-        </div>
-      ) : (
-        <div>검색 결과가 없습니다</div>
-      )}
+      <BoardListPage searchResults={searchResults} />
+      {searchResults.length === 0 && <div>검색 결과가 없습니다</div>}
     </div>
   );
 };

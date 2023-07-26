@@ -7,16 +7,8 @@ import { useAuth } from 'pages/AuthConText';
 import './css/BoardCss.css';
 import { Board } from 'board/entity/Board';
 
-interface BoardItem {
-  boardId: number;
-  title: string;
-  writer: string;
-  content: string;
-  createdData: string;
-}
-
 interface BoardListProps {
-  searchResults?: Board[]; 
+  searchResults?: Board[];
 }
 
 const BoardListPage: React.FC<BoardListProps> = ({ searchResults }) => {
@@ -28,24 +20,12 @@ const BoardListPage: React.FC<BoardListProps> = ({ searchResults }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!searchResults || searchResults.length === 0) {
-        const data = await fetchBoardList();
-        setBoards(data);
-      } else {
-        setBoards(searchResults);
-      }
+      const data = await fetchBoardList();
+      setBoards(data);
     };
 
     fetchData();
-  }, [searchResults, setBoards]);
-
-  if (isLoading) {
-    return <CircularProgress />;
-  }
-
-  if (isError) {
-    return <Typography>리스트를 가져오는 도중 에러가 발생했습니다</Typography>;
-  }
+  }, [setBoards]);
 
   const handleRowClick = (boardId: number) => {
     Navigate(`/read/${boardId}`);
@@ -62,10 +42,13 @@ const BoardListPage: React.FC<BoardListProps> = ({ searchResults }) => {
     }
   };
 
-  if (searchResults?.length === 0) {
-    return null;
+  if (isLoading) {
+    return <CircularProgress />;
   }
 
+  if (isError) {
+    return <Typography>리스트를 가져오는 도중 에러가 발생했습니다</Typography>;
+  }
 
   return (
     <Container maxWidth="md">
@@ -82,29 +65,11 @@ const BoardListPage: React.FC<BoardListProps> = ({ searchResults }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {boards?.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={3} align='center'>등록된 게시물이 없습니다</TableCell>
-              </TableRow>
-            ) : (
-              // 여기가 boardList를 뿌리는 곳
-              boards?.map((board) => (
-                <TableRow key={board.boardId} onClick={() => handleRowClick(board.boardId)} style={{ cursor: 'pointer' }} className="board-row">
-                  <TableCell>{board.title}</TableCell>
-                  <TableCell>{board.writer}</TableCell>
-                  {/* 작성날짜만 나오게 표시 */}
-                  <TableCell>{new Date(board.createdData).toISOString().slice(0, 10)}</TableCell>
-                </TableRow>
-              ))
-            )}
-          </TableBody>
-          <TableBody>
             {searchResults?.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={3} align='center'>검색 결과가 없습니다</TableCell>
               </TableRow>
             ) : (
-              // 여기에서 searchResults에 해당하는 게시글만 뿌려주기
               searchResults?.map((board) => (
                 <TableRow key={board.boardId} onClick={() => handleRowClick(board.boardId)} style={{ cursor: 'pointer' }} className="board-row">
                   <TableCell>{board.title}</TableCell>
