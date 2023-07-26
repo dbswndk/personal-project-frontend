@@ -1,4 +1,4 @@
-import { fetchBoardList } from 'pages/api/HeaderApi';
+import { fetchBoardKeywordList } from 'pages/api/HeaderApi';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,7 +9,7 @@ const SearchBar: React.FC = () => {
 
   const callApiAndNavigate = async () => {
     if (!hasCalledApi && searchTerm.trim() !== '') {
-      await fetchBoardList(searchTerm); 
+      await fetchBoardKeywordList(searchTerm); 
       navigate(`/search/${searchTerm}`);
       setHasCalledApi(true);
     }
@@ -48,7 +48,7 @@ const SearchBar: React.FC = () => {
         value={searchTerm}
         onChange={handleInputChange}
         onKeyPress={handleKeyPress}
-        placeholder='검색...'
+        placeholder='검색'
       />
       <button className='search-button' onClick={handleSearchButtonClick}>
         검색

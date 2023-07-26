@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchBoardList } from 'pages/api/HeaderApi';
+import { fetchBoardKeywordList } from 'pages/api/HeaderApi';
 import BoardListPage from 'board/page/BoardListPage';
 import { Board } from 'board/entity/Board';
 
@@ -9,9 +9,8 @@ const SearchResultsPage: React.FC = () => {
   const [searchResults, setSearchResults] = useState<Board[]>([]);
 
   useEffect(() => {
-    console.log('Search Term:', searchTerm);
     if (searchTerm) {
-      fetchBoardList(searchTerm)
+      fetchBoardKeywordList(searchTerm)
         .then((boardListData) => {
           setSearchResults(boardListData);
         })
@@ -27,7 +26,6 @@ const SearchResultsPage: React.FC = () => {
   return (
     <div>
       <BoardListPage searchResults={searchResults} />
-      {searchResults.length === 0 && <div>검색 결과가 없습니다</div>}
     </div>
   );
 };
