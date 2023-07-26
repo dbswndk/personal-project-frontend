@@ -1,26 +1,26 @@
 import React, { ReactNode, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Nav.css';
 import { useAuth } from 'pages/AuthConText';
+import SearchBar from './SearchBar';
 
 type HeaderProps = {
   children?: ReactNode;
 };
 
 const Header: React.FC<HeaderProps> = ({ children }) => {
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
   const { isLoggedIn, setIsLoggedIn } = useAuth();
-
-
+  
   const handleLogout = () => {
-    // accessToken 토큰 삭제
     localStorage.removeItem('accessToken');
-    localStorage.removeItem('accountId')
+    localStorage.removeItem('accountId');
     setIsLoggedIn(false);
+    alert('로그아웃했습니다.');
+    navigate('/');
   };
 
   useEffect(() => {
-    // 페이지 로드 시 로그인 상태 확인
     const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
       setIsLoggedIn(true);
@@ -31,6 +31,7 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
     <div>
       <div className='navbar'>
         <Link className='PetCareFinder' to={'/'}>PetCareFinder</Link>
+        <SearchBar/>
         {isLoggedIn ? (
           <>
             <button className='Menu-logout' onClick={handleLogout}>로그아웃</button>
