@@ -64,7 +64,7 @@ jobs:
         host: ${{ secrets.HOST_PROD }}
         username: ec2-user
         key: ${{ secrets.PRIVATE_KEY }}
-        source: "./dist/*"
+        source: "./build/*"
         target: "/home/ec2-user/actions-tmp-repo"
         
     - name: Remove Github Actions IP From Security Group
@@ -86,7 +86,7 @@ jobs:
           script_stop: true
           script: |
             cd animal/fast-front-deploy
-            cp -r ~/actions-tmp-repo/dist/* ./html/
+            cp -r ~/actions-tmp-repo/build/* ./html/
 
             docker image prune -f
             docker logout
