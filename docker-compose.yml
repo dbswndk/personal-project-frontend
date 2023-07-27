@@ -1,8 +1,14 @@
 version: '3.7'
 services:
   frontend:
-    image: ghcr.id/dbswndk/personal-project-frontend:latest
+    image: "nginx:latest"
     container_name: personal-project-frontend
+    restart: unless-stopped
+    volumes:
+      - /home/ec2-user/animal/fast-front-deploy/conf:/etx/nginx/conf.d
+      - /home/ec2-user/animal/fast-front-deploy/html:/usr/share/nginx/html
+    ports:
+      - "80:80"
     networks:
       - app
 
