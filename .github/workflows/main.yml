@@ -86,7 +86,7 @@ jobs:
           script_stop: true
           script: |
             cd animal/fast-front-deploy
-            cp -r ~/actions-tmp-repo/build/* ./html/
+            cp -r ~/actions-tmp-repo/dist/* ./html/
 
             docker image prune -f
             docker logout
