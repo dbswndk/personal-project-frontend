@@ -11,7 +11,7 @@ type HeaderProps = {
 const Header: React.FC<HeaderProps> = ({ children }) => {
   const navigate = useNavigate();
   const { isLoggedIn, setIsLoggedIn } = useAuth();
-  
+
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('accountId');
@@ -29,25 +29,37 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
 
   return (
     <div>
+      <div className='top-bar'>
+        <div className='menu-container'>
+          {isLoggedIn ? (
+            <>
+              <button className='Menu-logout' onClick={handleLogout}>로그아웃</button>
+              <Link className='Menu' to={'/myPage'}>마이페이지</Link>
+            </>
+          ) : (
+            <>
+              <Link className='Menu' to={'/login'}>로그인</Link>
+              <Link className='Menu' to={'/signupHome'}>회원가입</Link>
+            </>
+          )}
+        </div>
+      </div>
+      <div className='bar'>
+      <Link className='PetCareFinder' to={'/'}>
+        <img src='img/logo.png' alt='PetCareFinder' />
+      </Link>
+        {/* <SearchBar /> */}
+      </div>
       <div className='navbar'>
-        <Link className='PetCareFinder' to={'/'}>PetCareFinder</Link>
-        <SearchBar/>
-        {isLoggedIn ? (
-          <>
-            <button className='Menu-logout' onClick={handleLogout}>로그아웃</button>
-            <Link className='Menu' to={'/myPage'}>마이페이지</Link>
-            <Link className='Menu' to={'/board'}>게시판</Link>
-            <Link className='Menu' to={'/map'}>병원찾기</Link>
-          </>
-        ) : (
-          <>
-            <Link className='Menu' to={'/login'}>로그인</Link>
-            <Link className='Menu' to={'/signupHome'}>회원가입</Link>
-            <Link className='Menu' to={'/board'}>게시판</Link>
-            <Link className='Menu' to={'/map'}>병원찾기</Link>
-            <Link className='Menu' to={'/image'}>이미지</Link>
-          </>
-        )}
+        <div className='bottom-links'>
+        <Link className='MenuImage' to={'/board'}>
+          <img src='img/PETTALK.png' alt='PETTALK' />
+        </Link>
+        <Link className='MenuImage' to={'/map'}>
+          <img src='img/병원찾기.png' alt='병원찾기' />
+        </Link>
+          {/* {isLoggedIn && <Link className='Menu' to={'/image'}>이미지</Link>} */}
+        </div>
       </div>
       {children}
     </div>

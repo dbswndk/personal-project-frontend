@@ -1,8 +1,9 @@
 import React from 'react'
+import Carousel from './Carousel'
 
-const Home = () => {
+const Home = (): JSX.Element => {
   return (
-    <div>Home</div>
+    <Carousel/>
   )
 }
 
