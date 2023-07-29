@@ -51,12 +51,13 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
         {/* <SearchBar /> */}
       </div>
       <div className='navbar'>
+        <div id="menu_under_line"></div>
         <div className='bottom-links'>
         <Link className='MenuImage' to={'/board'}>
           <img src='img/PETTALK.png' alt='PETTALK' />
         </Link>
         <Link className='MenuImage' to={'/map'}>
-          <img src='img/병원찾기.png' alt='병원찾기' />
+          <img src='img/병원찾기.png' alt='동물병원' />
         </Link>
           {/* {isLoggedIn && <Link className='Menu' to={'/image'}>이미지</Link>} */}
         </div>

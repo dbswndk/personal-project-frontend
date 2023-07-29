@@ -34,10 +34,13 @@
 }
 
 .MenuImage img {
-  width: 100px; /* 이미지의 너비 설정 */
-  height: 40px; /* 이미지의 높이 설정 */
+  width: 80px; /* 이미지의 너비 설정 */
+  height: 25px; /* 이미지의 높이 설정 */
 }
 
+.MenuImage:active {
+  text-decoration: underline;
+}
 
 .bottom-links {
   display: flex;

@@ -59,7 +59,8 @@ const BoardListPage: React.FC<BoardListProps> = ({ searchResults }) => {
 
   return (
     <Container maxWidth="md">
-      <Button variant="contained" onClick={handleWriteClick} color="primary" style={{ marginTop: '20px' }} className="board-write-button">
+      <div className="button-container">
+      <Button variant="contained" onClick={handleWriteClick} style={{ marginTop: '20px' }} className="board-write-button">
         글쓰기
       </Button>
       <TableContainer component={Paper}>
@@ -104,6 +105,7 @@ const BoardListPage: React.FC<BoardListProps> = ({ searchResults }) => {
           </TableBody>
         </Table>
       </TableContainer>
+      </div>
     </Container>
   );
 }

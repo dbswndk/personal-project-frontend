@@ -97,7 +97,7 @@ const MapBoardListPage: React.FC<MapBoardListPageProps> = ({ place_name }) => {
                   </TableBody>
                 </Table>
               </TableContainer>
-              <Button variant="contained" onClick={() => handleWriteClick()} color="primary" style={{ marginTop: '20px' }}>
+              <Button variant="contained" onClick={() => handleWriteClick()} style={{ marginTop: '20px' }} className='board-write-button'>
                 글쓰기
               </Button>
             </React.Fragment>
