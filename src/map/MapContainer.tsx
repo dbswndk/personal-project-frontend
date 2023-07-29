@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import React, { useEffect, useRef, useState } from 'react';
 import MapInfoPage from './MapInfoPage';
 import { useNavigate } from 'react-router-dom';
+import './boardMapPage/css/MapCss.css'
 
 declare global {
   interface Window {
@@ -113,12 +114,12 @@ function MapContainer() {
 
   return (
     <>
-      <div>
-        <input
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <input className='mapbar'
           type="text"
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
-          placeholder="검색어를 입력하세요 (예: 지역명)"
+          placeholder="지역명을 입력하세요"
         />
       </div>
       <Map ref={mapRef} />
