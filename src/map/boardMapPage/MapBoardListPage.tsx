@@ -89,8 +89,8 @@ const MapBoardListPage: React.FC<MapBoardListPageProps> = ({ place_name }) => {
                       boards?.map((board) => (
                         <TableRow key={board?.boardMapId} onClick={() => handleRowClick(board?.boardMapId)} style={{ cursor: 'pointer' }}>
                           <TableCell>{ board.title }</TableCell>
-                          <TableCell>{ board.writer }</TableCell>
-                          <TableCell>{ new Date(board.createdData).toISOString().slice(0, 10) }</TableCell>
+                          <TableCell align='right'>{ board.writer }</TableCell>
+                          <TableCell align='right'>{ new Date(board.createdData).toISOString().slice(0, 10) }</TableCell>
                         </TableRow>
                       ))
                     )}

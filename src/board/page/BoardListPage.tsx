@@ -96,8 +96,8 @@ const BoardListPage: React.FC<BoardListProps> = ({ searchResults }) => {
                 boards?.map((board) => (
                   <TableRow key={board.boardId} onClick={() => handleRowClick(board.boardId)} style={{ cursor: 'pointer' }} className="board-row">
                     <TableCell>{board.title}</TableCell>
-                    <TableCell>{board.writer}</TableCell>
-                    <TableCell>{new Date(board.createdData).toISOString().slice(0, 10)}</TableCell>
+                    <TableCell align='right'>{board.writer}</TableCell>
+                    <TableCell align='right'>{new Date(board.createdData).toISOString().slice(0, 10)}</TableCell>
                   </TableRow>
                 ))
               )
