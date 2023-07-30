@@ -29,7 +29,7 @@ const MyInfoPage = () => {
   }
 
   return (
-    <Container maxWidth="md" sx={{ marginTop: '2em' }}>
+    <Container maxWidth="xs" sx={{ marginTop: '2em' }}>
       <Box display="flex" flexDirection="column" gap={2} p={2}>
         <TextField label="이메일" name="email" disabled 
                   value={ account?.email || '' } sx={{ borderRadius: '4px' }}/>
