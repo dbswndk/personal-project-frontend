@@ -36,7 +36,7 @@ const ImageFile: React.FC<ImageFileProps> = ({ setImageFile, setImageSrc }) => {
   };
 
   const buttonStyle: React.CSSProperties = {
-    backgroundColor: '#333', // Dark gray (#333) instead of green
+    backgroundColor: '#333',
     border: 'none',
     color: 'white',
     padding: '10px 20px',

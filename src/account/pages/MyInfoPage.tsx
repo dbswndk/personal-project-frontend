@@ -1,24 +1,17 @@
 import { Box, Button, Container, TextField } from '@mui/material'
 import { fetchAccount, useAccountQuery } from 'account/api/AccountApi'
 import React, { useEffect } from 'react'
-import { useQueryClient } from 'react-query'
+import { useQuery, useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 
 const MyInfoPage = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const accessToken = localStorage.getItem('accessToken');
-  const { data: account } = useAccountQuery();
 
-  useEffect(() => {
-    if (accessToken && !account) { 
-      const fetchAccountData = async () => {
-        const accountData = await fetchAccount();
-      };
-
-      fetchAccountData();
-    }
-  }, [accessToken, account]);
+  const { data: account, isLoading, isError } = useQuery('account', fetchAccount, {
+    enabled: !!accessToken, 
+  });
 
   const handleEditClick = () => {
     navigate(`/account/myPage`);
