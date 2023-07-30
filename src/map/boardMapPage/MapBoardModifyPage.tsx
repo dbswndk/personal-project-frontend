@@ -15,7 +15,7 @@ const BoardMapModifyPage: React.FC<MapBoardModifyPageProps> = ({ place_name, boa
   const navigate = useNavigate()
   const queryClient = useQueryClient()
 
-  const { data: board } = useBoardQuery(place_name || '', boardMapId.toString())
+  const { data: board, refetch  } = useBoardQuery(place_name || '', boardMapId.toString())
   const mutation = useBoardUpdateMutation()
 
   const [title, setTitle] = useState(board?.title || '')
@@ -31,6 +31,7 @@ const BoardMapModifyPage: React.FC<MapBoardModifyPageProps> = ({ place_name, boa
       try {
         await mutation.mutateAsync(updatedData)
         queryClient.invalidateQueries(['board', boardMapId])
+        await refetch();
         setIsEditing(false);
       } catch (error) {
         if ((error as AxiosError).response && ((error as AxiosError).response?.status === 400)) {
