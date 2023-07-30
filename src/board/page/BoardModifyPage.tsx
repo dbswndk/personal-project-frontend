@@ -32,7 +32,7 @@ const BoardModifyPage = () => {
         await mutation.mutateAsync(updatedData)
 
         queryClient.invalidateQueries(['board', boardId])
-        navigate(`/read/${boardId}`)
+        navigate('/board')
       } catch (error) {
         if ((error as AxiosError).response && ((error as AxiosError).response?.status === 400)) {
           alert('권한이 없습니다.');
