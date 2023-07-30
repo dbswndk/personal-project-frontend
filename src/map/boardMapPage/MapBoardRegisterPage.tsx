@@ -79,7 +79,6 @@ const MapBoardRegisterPage: React.FC<MapBoardRegisterPageProps> = ({ place_name,
       return;
     }
 
-    // S3 업로드 시작
     const upload = new AWS.S3.ManagedUpload({
       params: {
         ACL: 'public-read',

@@ -22,7 +22,6 @@ const Upload: React.FC = () => {
       return;
     }
 
-    // S3 업로드 시작
     const upload = new AWS.S3.ManagedUpload({
       params: {
         ACL: 'public-read',
@@ -46,7 +45,6 @@ const Upload: React.FC = () => {
   return (
     <div>
       <ImageFile setImageFile={setImageFile} setImageSrc={setImageSrc} />
-      {/* 미리보기 */}
       {imageSrc && (<img src={imageSrc} alt="Uploaded Image" style={{ maxWidth: '300px', maxHeight: '300px' }} />)}
       <button type="button" onClick={() => {
           if (!imageSrc) {

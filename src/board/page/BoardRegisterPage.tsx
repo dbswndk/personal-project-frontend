@@ -12,14 +12,11 @@ const BoardRegisterPage = () => {
   const mutation = useMutation(registerBoard, {
     onSuccess: (data) => {
       queryClient.setQueryData('board', data)
-      // navigate(`/read/${data.boardId}`)
       console.log('전송정보: ', data)
       navigate('/board')
     }
   })
 
-
-  // event:~  사실상 emit
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
 

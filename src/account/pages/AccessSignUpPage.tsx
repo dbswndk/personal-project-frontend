@@ -140,8 +140,8 @@ const SignUpPage = () => {
       password !== '' &&
       passwordCheck !== '' &&
       accessNumber !== '' &&
-      isEmailAvailable && // 사용 가능한 이메일인지 확인
-      (isEmailAvailable || !isEmailDuplicateChecked) // 중복 체크가 완료된 상태인지 확인
+      isEmailAvailable &&
+      (isEmailAvailable || !isEmailDuplicateChecked)
     );
   };  
   

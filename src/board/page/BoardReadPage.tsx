@@ -15,7 +15,7 @@ const BoardReadPage = () => {
   const { boardId } = useParams<RouteParams>()
   const queryClient = useQueryClient()
 
-  const [isAuthorized, setIsAuthorized] = useState<boolean>(false); // 추가: 삭제 수정 권한 상태
+  const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
 
   const { data: board } = useBoardQuery(boardId || '')
   console.log('boardId확인', boardId)

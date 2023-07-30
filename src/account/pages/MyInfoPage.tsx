@@ -9,7 +9,7 @@ const MyInfoPage = () => {
   const queryClient = useQueryClient();
   const accessToken = localStorage.getItem('accessToken');
 
-  const { data: account, isLoading, isError } = useQuery('account', fetchAccount, {
+  const { data: account } = useQuery('account', fetchAccount, {
     enabled: !!accessToken, 
   });
 

@@ -6,18 +6,6 @@ import { useMutation, useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import './css/LoginPage.css';
 
-// const theme = createTheme({
-//   components: {
-//     MuiFilledInput: {
-//       styleOverrides: {
-//         root: {
-//           width: '70%',
-//         },
-//       },
-//     },
-//   },
-// });
-
 const LogInPage = () => {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
@@ -29,7 +17,7 @@ const LogInPage = () => {
         queryClient.setQueriesData('account', data);
         const accessToken = data.accessToken;
         localStorage.setItem('accessToken', accessToken);
-        setIsLoggedIn(true); // 로그인 상태 변경
+        setIsLoggedIn(true);
 
         navigate('/');
       } else {
