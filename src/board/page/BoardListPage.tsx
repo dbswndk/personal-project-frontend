@@ -76,7 +76,7 @@ const BoardListPage: React.FC<BoardListProps> = ({ searchResults }) => {
             {searchTerm ? (
               searchResults?.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={3} align='center'>검색 결과가 없습니다</TableCell>
+                  <TableCell colSpan={3} align='center'>"{searchTerm}"에 대한 검색 결과가 없습니다</TableCell>
                 </TableRow>
               ) : (
                 searchResults?.map((board) => (

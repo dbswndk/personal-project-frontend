@@ -31,6 +31,7 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
     <div>
       <div className='top-bar'>
         <div className='menu-container'>
+        <SearchBar />
           {isLoggedIn ? (
             <>
               <button className='Menu-logout' onClick={handleLogout}>로그아웃</button>
@@ -48,7 +49,6 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
       <Link className='PetCareFinder' to={'/'}>
         <img src='img/logo.png' alt='PetCareFinder' />
       </Link>
-        {/* <SearchBar /> */}
       </div>
       <div className='navbar'>
         <div id="menu_under_line"></div>
@@ -59,7 +59,6 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
         <Link className='MenuImage' to={'/map'}>
           <img src='img/병원찾기.png' alt='동물병원' />
         </Link>
-          {/* {isLoggedIn && <Link className='Menu' to={'/image'}>이미지</Link>} */}
         </div>
       </div>
       {children}
