@@ -7,4 +7,5 @@ export interface BoardMap {
   content: string;
   createdData: string;
   updatedData: string;
+  imageSrc: string | null; 
 }

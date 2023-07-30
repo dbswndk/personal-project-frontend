@@ -8,7 +8,8 @@ interface ImageFileProps {
 const ImageFile: React.FC<ImageFileProps> = ({ setImageFile, setImageSrc }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const onButtonClick = () => {
+  const onButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
@@ -20,23 +21,31 @@ const ImageFile: React.FC<ImageFileProps> = ({ setImageFile, setImageSrc }) => {
 
     const fileExt = file.name.split('.').pop()?.toLowerCase();
 
-    // 확장자 제한
     if (!['jpeg', 'png', 'jpg'].includes(fileExt || '')) {
       alert('jpg, png, jpg 파일만 업로드가 가능합니다.');
       return;
     }
 
-    // 파일 리더
     const reader = new FileReader();
     reader.readAsDataURL(file);
 
-    // 파일 업로드
     reader.onload = () => {
-      // 이미지 경로 선언
       setImageSrc(reader.result as string);
-      // 이미지 파일 선언
       setImageFile(file);
     };
+  };
+
+  const buttonStyle: React.CSSProperties = {
+    backgroundColor: '#333', // Dark gray (#333) instead of green
+    border: 'none',
+    color: 'white',
+    padding: '10px 20px',
+    textAlign: 'center',
+    textDecoration: 'none',
+    display: 'inline-block',
+    fontSize: '16px',
+    margin: '4px 2px',
+    cursor: 'pointer',
   };
 
   return (
@@ -49,7 +58,9 @@ const ImageFile: React.FC<ImageFileProps> = ({ setImageFile, setImageSrc }) => {
         type="file"
         onChange={onUpload}
       />
-      <button onClick={onButtonClick}>Select Image</button>
+      <button style={buttonStyle} onClick={onButtonClick}>
+        Select Image
+      </button>    
     </div>
   );
 };
