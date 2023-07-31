@@ -62,6 +62,8 @@ const MapBoardReadPage: React.FC<MapBoardReadPageProps> = ({ place_name, boardMa
     setIsReading(null); 
   };
 
+  const imageUrl = `https://vue-s3-jua-test.s3.ap-northeast-2.amazonaws.com/upload/20190624_213156.jpg`;
+
   return (
     <Container maxWidth="md" sx={{ marginTop: '2em' }}>
     {isEditing ? (
@@ -79,6 +81,7 @@ const MapBoardReadPage: React.FC<MapBoardReadPageProps> = ({ place_name, boardMa
                 minRows={10} maxRows={10} sx={{ borderRadius: '4px' }}/>
       <TextField label="작성일자" name="createdData" disabled
                 value={board?.createdData || ''} sx={{ borderRadius: '4px' }}/>
+      <img src={imageUrl} alt="Board Image" />
       {isAuthorized && (
         <>
           <Button variant="outlined" onClick={handleEditClick}>수정</Button>
